@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Loteria.ApiWeb/Loteria.ApiWeb.csproj" />
+  <Project Path="Loteria.Datos/Loteria.Datos.csproj" />
+  <Project Path="Loteria.Entidades/Loteria.Entidades.csproj" />
+  <Project Path="Loteria.Escritorio/Loteria.Escritorio.csproj" />
+  <Project Path="Loteria.Negocio/Loteria.Negocio.csproj" />
+</Solution>
