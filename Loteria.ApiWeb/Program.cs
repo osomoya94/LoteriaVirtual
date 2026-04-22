@@ -18,6 +18,12 @@ builder.Services.AddTransient<UsuarioService>();
 builder.Services.AddTransient<JugadorRepository>();
 builder.Services.AddTransient<JugadorService>();
 
+builder.Services.AddTransient<SorteoRepository>();
+builder.Services.AddTransient<SorteoService>();
+
+builder.Services.AddTransient<CartonRepository>();
+builder.Services.AddTransient<CartonService>();
+
 // Configuraciones estándar de la API
 builder.Services.AddOpenApi();
 
@@ -188,5 +194,113 @@ app.MapDelete("/api/jugadores/{id}", async (int id, JugadorService servicio) =>
     return Results.Ok(new { mensaje = "Jugador se eliminó correctamente" });
 });
 
+//SORTEOS
+app.MapGet("/api/sorteos", async (SorteoService service) => 
+{
+    var sorteos = await service.ObtenerTodosAsync();
+    return Results.Ok(sorteos);
+});
+
+app.MapPost("/api/sorteos", async (SorteoService service, Sorteo nuevoSorteo) => 
+{
+    try
+    {
+        await service.CrearSorteoAsync(nuevoSorteo);
+
+        return Results.Ok(new { mensaje = "Sorteo creado con exito" });
+    }
+    catch (Exception ex) 
+    {
+        return Results.BadRequest(new { mensaje = ex.Message });
+    }
+});
+
+app.MapGet("/api/sorteos/{id}", async (int id , SorteoService service) => 
+{
+    var sorteo = await service.ObtenerPorIdAsync(id);
+
+    if(sorteo == null) 
+    {
+        return Results.BadRequest(new { mensaje = $"No se encotro sorte con el numero de {id}" });
+    }
+
+    return Results.Ok(sorteo);
+});
+
+app.MapPut("/api/sorteos/{id}", async (int id, SorteoService service, Sorteo sorteoModificado) => 
+{
+    if (sorteoModificado.Id != id)
+    {
+        return Results.BadRequest(new { mensaje = "El ID de la URL no coincide con el del paquete de datos" });
+    }
+
+    var sorteo = await service.ObtenerPorIdAsync(id);
+
+    if (sorteo == null)
+    {
+        return Results.BadRequest(new { mensaje = $"No se encotro sorte con el numero de {id}" });
+    }
+
+    try 
+    {
+        await service.ActualizarSorteoAsync(sorteoModificado);
+        return Results.Ok(new { mensaje = "Sorteo actualizado correctamente" });
+    } catch (Exception ex) 
+    {
+        return Results.BadRequest(new { mensaje = ex.Message });
+    }
+});
+
+app.MapDelete("/api/sorteos/{id}/cancelar", async (int id, SorteoService sorteoService) =>
+{
+    var sorteo = await sorteoService.ObtenerPorIdAsync(id);
+
+    if (sorteo == null)
+    {
+        return Results.NotFound(new { mensaje = $"No se encontró sorteo con el número {id}" });
+    }
+
+    try
+    {
+        await sorteoService.CancelarSorteoAsync(id);
+        return Results.Ok(new { mensaje = "Cancelo sorteo con exito" });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { mensaje = ex.Message });
+    }
+});
+
+
+// CARTONES
+app.MapGet("/api/sorteos/{idSorteo}/cartones", async (int idSorteo, CartonService service) =>
+{
+    try
+    {
+        var cartones = await service.ObtenerCartonesPorSorteoAsync(idSorteo);
+        return Results.Ok(cartones); 
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { mensaje = ex.Message });
+    }
+});
+
+app.MapPost("/api/cartones", async (CartonService service,Carton nuevoCarton ) => 
+{
+    try
+    {
+        await service.CrearCartonAsync(nuevoCarton);
+
+        return Results.Ok(new { mensaje = "Cartones creados con exito" });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { mensaje = ex.Message });
+    }
+});
+
+
 
 app.Run();
+

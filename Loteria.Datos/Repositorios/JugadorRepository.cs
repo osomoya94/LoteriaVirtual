@@ -63,7 +63,7 @@ namespace Loteria.Datos.Repositorios
         //Actulizar jugador
         public async Task ActualizarJugadorAsync(Jugador jugadorEditado)
         {
-            string sql = "UPDATE Jugadores SET Email = @Email WHERE Id = @Id;";
+            string sql = "UPDATE Jugadores SET Email = @Email WHERE Id = @Id;";// falta modificar para cambiar el nombre y apellido, hata el dni
 
             using (var conexion = _connectionFactory.CreateConnection())
             {
