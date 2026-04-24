@@ -50,14 +50,14 @@ partial class dgvSorteos
         colEstado = new DataGridViewTextBoxColumn();
         colPrecio = new DataGridViewTextBoxColumn();
         colModo = new DataGridViewTextBoxColumn();
-        flowLayoutPanel1 = new FlowLayoutPanel();
-        btnNuevo = new Button();
-        btnEditar = new Button();
-        btnActualizar = new Button();
         flowLayoutPanel2 = new FlowLayoutPanel();
         btnAbrirVentana = new Button();
         btnIniciar = new Button();
         btnCancelar = new Button();
+        flowLayoutPanel1 = new FlowLayoutPanel();
+        btnNuevo = new Button();
+        btnEditar = new Button();
+        btnActualizar = new Button();
         tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -67,8 +67,8 @@ partial class dgvSorteos
         ((System.ComponentModel.ISupportInitialize)dgvPagosPendientes).BeginInit();
         tabPage2.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-        flowLayoutPanel1.SuspendLayout();
         flowLayoutPanel2.SuspendLayout();
+        flowLayoutPanel1.SuspendLayout();
         SuspendLayout();
         // 
         // tabControl1
@@ -229,10 +229,10 @@ partial class dgvSorteos
         dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colId, colNombre, colFecha, colEstado, colPrecio, colModo });
         dataGridView1.Dock = DockStyle.Fill;
-        dataGridView1.Location = new Point(3, 43);
+        dataGridView1.Location = new Point(3, 48);
         dataGridView1.Name = "dataGridView1";
         dataGridView1.RowHeadersWidth = 62;
-        dataGridView1.Size = new Size(965, 313);
+        dataGridView1.Size = new Size(965, 316);
         dataGridView1.TabIndex = 0;
         dataGridView1.CellContentClick += dataGridView1_CellContentClick;
         // 
@@ -278,84 +278,93 @@ partial class dgvSorteos
         colModo.Name = "colModo";
         colModo.Width = 150;
         // 
-        // flowLayoutPanel1
-        // 
-        flowLayoutPanel1.AutoSize = true;
-        flowLayoutPanel1.BackColor = Color.LightSteelBlue;
-        flowLayoutPanel1.Controls.Add(btnNuevo);
-        flowLayoutPanel1.Controls.Add(btnEditar);
-        flowLayoutPanel1.Controls.Add(btnActualizar);
-        flowLayoutPanel1.Dock = DockStyle.Top;
-        flowLayoutPanel1.Location = new Point(3, 3);
-        flowLayoutPanel1.Name = "flowLayoutPanel1";
-        flowLayoutPanel1.Size = new Size(965, 40);
-        flowLayoutPanel1.TabIndex = 1;
-        // 
-        // btnNuevo
-        // 
-        btnNuevo.Location = new Point(3, 3);
-        btnNuevo.Name = "btnNuevo";
-        btnNuevo.Size = new Size(112, 34);
-        btnNuevo.TabIndex = 0;
-        btnNuevo.Text = "Nuevo Sroteo";
-        btnNuevo.UseVisualStyleBackColor = true;
-        // 
-        // btnEditar
-        // 
-        btnEditar.Location = new Point(121, 3);
-        btnEditar.Name = "btnEditar";
-        btnEditar.Size = new Size(112, 34);
-        btnEditar.TabIndex = 1;
-        btnEditar.Text = "Editar Seleccion";
-        btnEditar.UseVisualStyleBackColor = true;
-        // 
-        // btnActualizar
-        // 
-        btnActualizar.Location = new Point(239, 3);
-        btnActualizar.Name = "btnActualizar";
-        btnActualizar.Size = new Size(112, 34);
-        btnActualizar.TabIndex = 2;
-        btnActualizar.Text = "Refrescar";
-        btnActualizar.UseVisualStyleBackColor = true;
-        // 
         // flowLayoutPanel2
         // 
+        flowLayoutPanel2.AutoSize = true;
         flowLayoutPanel2.BackColor = Color.LightSteelBlue;
+        flowLayoutPanel2.BorderStyle = BorderStyle.Fixed3D;
         flowLayoutPanel2.Controls.Add(btnAbrirVentana);
         flowLayoutPanel2.Controls.Add(btnIniciar);
         flowLayoutPanel2.Controls.Add(btnCancelar);
         flowLayoutPanel2.Dock = DockStyle.Bottom;
-        flowLayoutPanel2.Location = new Point(3, 356);
+        flowLayoutPanel2.Location = new Point(3, 364);
         flowLayoutPanel2.Name = "flowLayoutPanel2";
-        flowLayoutPanel2.Size = new Size(965, 53);
+        flowLayoutPanel2.Size = new Size(965, 45);
         flowLayoutPanel2.TabIndex = 2;
         // 
         // btnAbrirVentana
         // 
+        btnAbrirVentana.AutoSize = true;
         btnAbrirVentana.Location = new Point(3, 3);
         btnAbrirVentana.Name = "btnAbrirVentana";
-        btnAbrirVentana.Size = new Size(112, 34);
+        btnAbrirVentana.Size = new Size(129, 35);
         btnAbrirVentana.TabIndex = 0;
         btnAbrirVentana.Text = "Abrir Ventana";
         btnAbrirVentana.UseVisualStyleBackColor = true;
         // 
         // btnIniciar
         // 
-        btnIniciar.Location = new Point(121, 3);
+        btnIniciar.AutoSize = true;
+        btnIniciar.Location = new Point(138, 3);
         btnIniciar.Name = "btnIniciar";
-        btnIniciar.Size = new Size(112, 34);
+        btnIniciar.Size = new Size(126, 35);
         btnIniciar.TabIndex = 1;
         btnIniciar.Text = "Iniciar Sorteo";
         btnIniciar.UseVisualStyleBackColor = true;
         // 
         // btnCancelar
         // 
-        btnCancelar.Location = new Point(239, 3);
+        btnCancelar.AutoSize = true;
+        btnCancelar.Location = new Point(270, 3);
         btnCancelar.Name = "btnCancelar";
-        btnCancelar.Size = new Size(112, 34);
+        btnCancelar.Size = new Size(112, 35);
         btnCancelar.TabIndex = 2;
         btnCancelar.Text = "Cancelar";
         btnCancelar.UseVisualStyleBackColor = true;
+        // 
+        // flowLayoutPanel1
+        // 
+        flowLayoutPanel1.AutoSize = true;
+        flowLayoutPanel1.BackColor = Color.LightSteelBlue;
+        flowLayoutPanel1.BorderStyle = BorderStyle.Fixed3D;
+        flowLayoutPanel1.Controls.Add(btnNuevo);
+        flowLayoutPanel1.Controls.Add(btnEditar);
+        flowLayoutPanel1.Controls.Add(btnActualizar);
+        flowLayoutPanel1.Dock = DockStyle.Top;
+        flowLayoutPanel1.Location = new Point(3, 3);
+        flowLayoutPanel1.Name = "flowLayoutPanel1";
+        flowLayoutPanel1.Size = new Size(965, 45);
+        flowLayoutPanel1.TabIndex = 1;
+        // 
+        // btnNuevo
+        // 
+        btnNuevo.AutoSize = true;
+        btnNuevo.Location = new Point(3, 3);
+        btnNuevo.Name = "btnNuevo";
+        btnNuevo.Size = new Size(132, 35);
+        btnNuevo.TabIndex = 0;
+        btnNuevo.Text = "Nuevo Sroteo";
+        btnNuevo.UseVisualStyleBackColor = true;
+        // 
+        // btnEditar
+        // 
+        btnEditar.AutoSize = true;
+        btnEditar.Location = new Point(141, 3);
+        btnEditar.Name = "btnEditar";
+        btnEditar.Size = new Size(145, 35);
+        btnEditar.TabIndex = 1;
+        btnEditar.Text = "Editar Seleccion";
+        btnEditar.UseVisualStyleBackColor = true;
+        // 
+        // btnActualizar
+        // 
+        btnActualizar.AutoSize = true;
+        btnActualizar.Location = new Point(292, 3);
+        btnActualizar.Name = "btnActualizar";
+        btnActualizar.Size = new Size(112, 35);
+        btnActualizar.TabIndex = 2;
+        btnActualizar.Text = "Refrescar";
+        btnActualizar.UseVisualStyleBackColor = true;
         // 
         // dgvSorteos
         // 
@@ -377,8 +386,10 @@ partial class dgvSorteos
         tabPage2.ResumeLayout(false);
         tabPage2.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-        flowLayoutPanel1.ResumeLayout(false);
         flowLayoutPanel2.ResumeLayout(false);
+        flowLayoutPanel2.PerformLayout();
+        flowLayoutPanel1.ResumeLayout(false);
+        flowLayoutPanel1.PerformLayout();
         ResumeLayout(false);
     }
 
