@@ -37,6 +37,11 @@ partial class dgvSorteos
         btnRechazar = new Button();
         btnAprobar = new Button();
         dgvPagosPendientes = new DataGridView();
+        colIdPago = new DataGridViewTextBoxColumn();
+        colDni = new DataGridViewTextBoxColumn();
+        colMonto = new DataGridViewTextBoxColumn();
+        colComprobante = new DataGridViewTextBoxColumn();
+        colFechaPago = new DataGridViewTextBoxColumn();
         tabPage2 = new TabPage();
         dataGridView1 = new DataGridView();
         colId = new DataGridViewTextBoxColumn();
@@ -45,11 +50,10 @@ partial class dgvSorteos
         colEstado = new DataGridViewTextBoxColumn();
         colPrecio = new DataGridViewTextBoxColumn();
         colModo = new DataGridViewTextBoxColumn();
-        colIdPago = new DataGridViewTextBoxColumn();
-        colDni = new DataGridViewTextBoxColumn();
-        colMonto = new DataGridViewTextBoxColumn();
-        colComprobante = new DataGridViewTextBoxColumn();
-        colFechaPago = new DataGridViewTextBoxColumn();
+        flowLayoutPanel1 = new FlowLayoutPanel();
+        btnNuevo = new Button();
+        btnEditar = new Button();
+        btnActualizar = new Button();
         tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -59,6 +63,7 @@ partial class dgvSorteos
         ((System.ComponentModel.ISupportInitialize)dgvPagosPendientes).BeginInit();
         tabPage2.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+        flowLayoutPanel1.SuspendLayout();
         SuspendLayout();
         // 
         // tabControl1
@@ -163,8 +168,47 @@ partial class dgvSorteos
         dgvPagosPendientes.Size = new Size(640, 406);
         dgvPagosPendientes.TabIndex = 0;
         // 
+        // colIdPago
+        // 
+        colIdPago.HeaderText = "ID";
+        colIdPago.MinimumWidth = 8;
+        colIdPago.Name = "colIdPago";
+        colIdPago.ReadOnly = true;
+        colIdPago.Visible = false;
+        colIdPago.Width = 150;
+        // 
+        // colDni
+        // 
+        colDni.HeaderText = "DNI Jugador";
+        colDni.MinimumWidth = 8;
+        colDni.Name = "colDni";
+        colDni.ReadOnly = true;
+        colDni.Width = 150;
+        // 
+        // colMonto
+        // 
+        colMonto.HeaderText = "Monto";
+        colMonto.MinimumWidth = 8;
+        colMonto.Name = "colMonto";
+        colMonto.Width = 150;
+        // 
+        // colComprobante
+        // 
+        colComprobante.HeaderText = "Estado del Comprobante";
+        colComprobante.MinimumWidth = 8;
+        colComprobante.Name = "colComprobante";
+        colComprobante.Width = 150;
+        // 
+        // colFechaPago
+        // 
+        colFechaPago.HeaderText = "Fecha";
+        colFechaPago.MinimumWidth = 8;
+        colFechaPago.Name = "colFechaPago";
+        colFechaPago.Width = 150;
+        // 
         // tabPage2
         // 
+        tabPage2.Controls.Add(flowLayoutPanel1);
         tabPage2.Controls.Add(dataGridView1);
         tabPage2.Location = new Point(4, 34);
         tabPage2.Name = "tabPage2";
@@ -228,43 +272,45 @@ partial class dgvSorteos
         colModo.Name = "colModo";
         colModo.Width = 150;
         // 
-        // colIdPago
+        // flowLayoutPanel1
         // 
-        colIdPago.HeaderText = "ID";
-        colIdPago.MinimumWidth = 8;
-        colIdPago.Name = "colIdPago";
-        colIdPago.ReadOnly = true;
-        colIdPago.Visible = false;
-        colIdPago.Width = 150;
+        flowLayoutPanel1.AutoSize = true;
+        flowLayoutPanel1.BackColor = Color.LightSteelBlue;
+        flowLayoutPanel1.Controls.Add(btnNuevo);
+        flowLayoutPanel1.Controls.Add(btnEditar);
+        flowLayoutPanel1.Controls.Add(btnActualizar);
+        flowLayoutPanel1.Dock = DockStyle.Top;
+        flowLayoutPanel1.Location = new Point(3, 3);
+        flowLayoutPanel1.Name = "flowLayoutPanel1";
+        flowLayoutPanel1.Size = new Size(965, 40);
+        flowLayoutPanel1.TabIndex = 1;
         // 
-        // colDni
+        // btnNuevo
         // 
-        colDni.HeaderText = "DNI Jugador";
-        colDni.MinimumWidth = 8;
-        colDni.Name = "colDni";
-        colDni.ReadOnly = true;
-        colDni.Width = 150;
+        btnNuevo.Location = new Point(3, 3);
+        btnNuevo.Name = "btnNuevo";
+        btnNuevo.Size = new Size(112, 34);
+        btnNuevo.TabIndex = 0;
+        btnNuevo.Text = "Nuevo Sroteo";
+        btnNuevo.UseVisualStyleBackColor = true;
         // 
-        // colMonto
+        // btnEditar
         // 
-        colMonto.HeaderText = "Monto";
-        colMonto.MinimumWidth = 8;
-        colMonto.Name = "colMonto";
-        colMonto.Width = 150;
+        btnEditar.Location = new Point(121, 3);
+        btnEditar.Name = "btnEditar";
+        btnEditar.Size = new Size(112, 34);
+        btnEditar.TabIndex = 1;
+        btnEditar.Text = "Editar Seleccion";
+        btnEditar.UseVisualStyleBackColor = true;
         // 
-        // colComprobante
+        // btnActualizar
         // 
-        colComprobante.HeaderText = "Estado del Comprobante";
-        colComprobante.MinimumWidth = 8;
-        colComprobante.Name = "colComprobante";
-        colComprobante.Width = 150;
-        // 
-        // colFechaPago
-        // 
-        colFechaPago.HeaderText = "Fecha";
-        colFechaPago.MinimumWidth = 8;
-        colFechaPago.Name = "colFechaPago";
-        colFechaPago.Width = 150;
+        btnActualizar.Location = new Point(239, 3);
+        btnActualizar.Name = "btnActualizar";
+        btnActualizar.Size = new Size(112, 34);
+        btnActualizar.TabIndex = 2;
+        btnActualizar.Text = "Refrescar";
+        btnActualizar.UseVisualStyleBackColor = true;
         // 
         // dgvSorteos
         // 
@@ -284,7 +330,9 @@ partial class dgvSorteos
         splitContainer1.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)dgvPagosPendientes).EndInit();
         tabPage2.ResumeLayout(false);
+        tabPage2.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+        flowLayoutPanel1.ResumeLayout(false);
         ResumeLayout(false);
     }
 
@@ -312,4 +360,8 @@ partial class dgvSorteos
     private DataGridViewTextBoxColumn colMonto;
     private DataGridViewTextBoxColumn colComprobante;
     private DataGridViewTextBoxColumn colFechaPago;
+    private FlowLayoutPanel flowLayoutPanel1;
+    private Button btnNuevo;
+    private Button btnEditar;
+    private Button btnActualizar;
 }
