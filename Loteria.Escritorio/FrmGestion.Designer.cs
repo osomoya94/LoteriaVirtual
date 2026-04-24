@@ -208,8 +208,8 @@ partial class dgvSorteos
         // 
         // tabPage2
         // 
-        tabPage2.Controls.Add(flowLayoutPanel1);
         tabPage2.Controls.Add(dataGridView1);
+        tabPage2.Controls.Add(flowLayoutPanel1);
         tabPage2.Location = new Point(4, 34);
         tabPage2.Name = "tabPage2";
         tabPage2.Padding = new Padding(3);
@@ -223,10 +223,10 @@ partial class dgvSorteos
         dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colId, colNombre, colFecha, colEstado, colPrecio, colModo });
         dataGridView1.Dock = DockStyle.Fill;
-        dataGridView1.Location = new Point(3, 3);
+        dataGridView1.Location = new Point(3, 43);
         dataGridView1.Name = "dataGridView1";
         dataGridView1.RowHeadersWidth = 62;
-        dataGridView1.Size = new Size(965, 406);
+        dataGridView1.Size = new Size(965, 366);
         dataGridView1.TabIndex = 0;
         dataGridView1.CellContentClick += dataGridView1_CellContentClick;
         // 
