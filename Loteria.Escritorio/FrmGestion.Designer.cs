@@ -30,35 +30,35 @@ partial class dgvSorteos
     {
         tabControl1 = new TabControl();
         tabPage1 = new TabPage();
+        splitContainer1 = new SplitContainer();
+        btnBuscar = new Button();
+        txtBusqueda = new TextBox();
+        label1 = new Label();
+        btnRechazar = new Button();
+        btnAprobar = new Button();
+        dgvPagosPendientes = new DataGridView();
         tabPage2 = new TabPage();
         dataGridView1 = new DataGridView();
-        splitContainer1 = new SplitContainer();
-        label1 = new Label();
-        txtBusqueda = new TextBox();
-        btnBuscar = new Button();
-        dgvPagosPendientes = new DataGridView();
-        btnAprobar = new Button();
-        btnRechazar = new Button();
-        colIdPago = new DataGridViewTextBoxColumn();
-        colDni = new DataGridViewTextBoxColumn();
-        colMonto = new DataGridViewTextBoxColumn();
-        colComprobante = new DataGridViewTextBoxColumn();
-        colFechaPago = new DataGridViewTextBoxColumn();
         colId = new DataGridViewTextBoxColumn();
         colNombre = new DataGridViewTextBoxColumn();
         colFecha = new DataGridViewTextBoxColumn();
         colEstado = new DataGridViewTextBoxColumn();
         colPrecio = new DataGridViewTextBoxColumn();
         colModo = new DataGridViewTextBoxColumn();
+        colIdPago = new DataGridViewTextBoxColumn();
+        colDni = new DataGridViewTextBoxColumn();
+        colMonto = new DataGridViewTextBoxColumn();
+        colComprobante = new DataGridViewTextBoxColumn();
+        colFechaPago = new DataGridViewTextBoxColumn();
         tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
-        tabPage2.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
         splitContainer1.Panel1.SuspendLayout();
         splitContainer1.Panel2.SuspendLayout();
         splitContainer1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)dgvPagosPendientes).BeginInit();
+        tabPage2.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
         SuspendLayout();
         // 
         // tabControl1
@@ -69,7 +69,7 @@ partial class dgvSorteos
         tabControl1.Location = new Point(0, 0);
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
-        tabControl1.Size = new Size(1222, 450);
+        tabControl1.Size = new Size(979, 450);
         tabControl1.TabIndex = 0;
         tabControl1.Tag = "";
         // 
@@ -79,33 +79,10 @@ partial class dgvSorteos
         tabPage1.Location = new Point(4, 34);
         tabPage1.Name = "tabPage1";
         tabPage1.Padding = new Padding(3);
-        tabPage1.Size = new Size(1214, 412);
+        tabPage1.Size = new Size(971, 412);
         tabPage1.TabIndex = 0;
         tabPage1.Text = "Validacion de Pagos";
         tabPage1.UseVisualStyleBackColor = true;
-        // 
-        // tabPage2
-        // 
-        tabPage2.Controls.Add(dataGridView1);
-        tabPage2.Location = new Point(4, 34);
-        tabPage2.Name = "tabPage2";
-        tabPage2.Padding = new Padding(3);
-        tabPage2.Size = new Size(1214, 412);
-        tabPage2.TabIndex = 1;
-        tabPage2.Text = "Gestion de Sorteos";
-        tabPage2.UseVisualStyleBackColor = true;
-        // 
-        // dataGridView1
-        // 
-        dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colId, colNombre, colFecha, colEstado, colPrecio, colModo });
-        dataGridView1.Dock = DockStyle.Fill;
-        dataGridView1.Location = new Point(3, 3);
-        dataGridView1.Name = "dataGridView1";
-        dataGridView1.RowHeadersWidth = 62;
-        dataGridView1.Size = new Size(1208, 406);
-        dataGridView1.TabIndex = 0;
-        dataGridView1.CellContentClick += dataGridView1_CellContentClick;
         // 
         // splitContainer1
         // 
@@ -124,9 +101,27 @@ partial class dgvSorteos
         splitContainer1.Panel2.Controls.Add(btnRechazar);
         splitContainer1.Panel2.Controls.Add(btnAprobar);
         splitContainer1.Panel2.Controls.Add(dgvPagosPendientes);
-        splitContainer1.Size = new Size(1208, 406);
-        splitContainer1.SplitterDistance = 402;
+        splitContainer1.Size = new Size(965, 406);
+        splitContainer1.SplitterDistance = 321;
         splitContainer1.TabIndex = 0;
+        // 
+        // btnBuscar
+        // 
+        btnBuscar.BackColor = Color.LightSteelBlue;
+        btnBuscar.Location = new Point(88, 189);
+        btnBuscar.Name = "btnBuscar";
+        btnBuscar.Size = new Size(112, 34);
+        btnBuscar.TabIndex = 2;
+        btnBuscar.Text = "Buscar";
+        btnBuscar.UseVisualStyleBackColor = false;
+        btnBuscar.Click += btnBuscar_Click;
+        // 
+        // txtBusqueda
+        // 
+        txtBusqueda.Location = new Point(67, 107);
+        txtBusqueda.Name = "txtBusqueda";
+        txtBusqueda.Size = new Size(181, 31);
+        txtBusqueda.TabIndex = 1;
         // 
         // label1
         // 
@@ -136,44 +131,6 @@ partial class dgvSorteos
         label1.Size = new Size(240, 25);
         label1.TabIndex = 0;
         label1.Text = "Ingrese DNI o Nro de Carton";
-        // 
-        // txtBusqueda
-        // 
-        txtBusqueda.Location = new Point(75, 107);
-        txtBusqueda.Name = "txtBusqueda";
-        txtBusqueda.Size = new Size(150, 31);
-        txtBusqueda.TabIndex = 1;
-        // 
-        // btnBuscar
-        // 
-        btnBuscar.Location = new Point(88, 189);
-        btnBuscar.Name = "btnBuscar";
-        btnBuscar.Size = new Size(112, 34);
-        btnBuscar.TabIndex = 2;
-        btnBuscar.Text = "Buscar";
-        btnBuscar.UseVisualStyleBackColor = true;
-        btnBuscar.Click += btnBuscar_Click;
-        // 
-        // dgvPagosPendientes
-        // 
-        dgvPagosPendientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        dgvPagosPendientes.Columns.AddRange(new DataGridViewColumn[] { colIdPago, colDni, colMonto, colComprobante, colFechaPago });
-        dgvPagosPendientes.Dock = DockStyle.Fill;
-        dgvPagosPendientes.Location = new Point(0, 0);
-        dgvPagosPendientes.Name = "dgvPagosPendientes";
-        dgvPagosPendientes.RowHeadersWidth = 62;
-        dgvPagosPendientes.Size = new Size(802, 406);
-        dgvPagosPendientes.TabIndex = 0;
-        // 
-        // btnAprobar
-        // 
-        btnAprobar.BackColor = Color.GreenYellow;
-        btnAprobar.Location = new Point(239, 337);
-        btnAprobar.Name = "btnAprobar";
-        btnAprobar.Size = new Size(112, 34);
-        btnAprobar.TabIndex = 1;
-        btnAprobar.Text = "Aprobar";
-        btnAprobar.UseVisualStyleBackColor = false;
         // 
         // btnRechazar
         // 
@@ -185,44 +142,56 @@ partial class dgvSorteos
         btnRechazar.Text = "Rechazar";
         btnRechazar.UseVisualStyleBackColor = false;
         // 
-        // colIdPago
+        // btnAprobar
         // 
-        colIdPago.HeaderText = "ID";
-        colIdPago.MinimumWidth = 8;
-        colIdPago.Name = "colIdPago";
+        btnAprobar.BackColor = Color.MediumSeaGreen;
+        btnAprobar.Location = new Point(239, 337);
+        btnAprobar.Name = "btnAprobar";
+        btnAprobar.Size = new Size(112, 34);
+        btnAprobar.TabIndex = 1;
+        btnAprobar.Text = "Aprobar";
+        btnAprobar.UseVisualStyleBackColor = false;
         // 
-        // colDni
+        // dgvPagosPendientes
         // 
-        colDni.HeaderText = "DNI Jugador";
-        colDni.MinimumWidth = 8;
-        colDni.Name = "colDni";
-        colDni.Width = 150;
+        dgvPagosPendientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvPagosPendientes.Columns.AddRange(new DataGridViewColumn[] { colIdPago, colDni, colMonto, colComprobante, colFechaPago });
+        dgvPagosPendientes.Dock = DockStyle.Fill;
+        dgvPagosPendientes.Location = new Point(0, 0);
+        dgvPagosPendientes.Name = "dgvPagosPendientes";
+        dgvPagosPendientes.RowHeadersWidth = 62;
+        dgvPagosPendientes.Size = new Size(640, 406);
+        dgvPagosPendientes.TabIndex = 0;
         // 
-        // colMonto
+        // tabPage2
         // 
-        colMonto.HeaderText = "Monto";
-        colMonto.MinimumWidth = 8;
-        colMonto.Name = "colMonto";
-        colMonto.Width = 150;
+        tabPage2.Controls.Add(dataGridView1);
+        tabPage2.Location = new Point(4, 34);
+        tabPage2.Name = "tabPage2";
+        tabPage2.Padding = new Padding(3);
+        tabPage2.Size = new Size(971, 412);
+        tabPage2.TabIndex = 1;
+        tabPage2.Text = "Gestion de Sorteos";
+        tabPage2.UseVisualStyleBackColor = true;
         // 
-        // colComprobante
+        // dataGridView1
         // 
-        colComprobante.HeaderText = "Estado del Comprobante";
-        colComprobante.MinimumWidth = 8;
-        colComprobante.Name = "colComprobante";
-        colComprobante.Width = 150;
-        // 
-        // colFechaPago
-        // 
-        colFechaPago.HeaderText = "Fecha";
-        colFechaPago.MinimumWidth = 8;
-        colFechaPago.Name = "colFechaPago";
+        dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colId, colNombre, colFecha, colEstado, colPrecio, colModo });
+        dataGridView1.Dock = DockStyle.Fill;
+        dataGridView1.Location = new Point(3, 3);
+        dataGridView1.Name = "dataGridView1";
+        dataGridView1.RowHeadersWidth = 62;
+        dataGridView1.Size = new Size(965, 406);
+        dataGridView1.TabIndex = 0;
+        dataGridView1.CellContentClick += dataGridView1_CellContentClick;
         // 
         // colId
         // 
         colId.HeaderText = "ID";
         colId.MinimumWidth = 8;
         colId.Name = "colId";
+        colId.Width = 150;
         // 
         // colNombre
         // 
@@ -259,25 +228,63 @@ partial class dgvSorteos
         colModo.Name = "colModo";
         colModo.Width = 150;
         // 
+        // colIdPago
+        // 
+        colIdPago.HeaderText = "ID";
+        colIdPago.MinimumWidth = 8;
+        colIdPago.Name = "colIdPago";
+        colIdPago.ReadOnly = true;
+        colIdPago.Visible = false;
+        colIdPago.Width = 150;
+        // 
+        // colDni
+        // 
+        colDni.HeaderText = "DNI Jugador";
+        colDni.MinimumWidth = 8;
+        colDni.Name = "colDni";
+        colDni.ReadOnly = true;
+        colDni.Width = 150;
+        // 
+        // colMonto
+        // 
+        colMonto.HeaderText = "Monto";
+        colMonto.MinimumWidth = 8;
+        colMonto.Name = "colMonto";
+        colMonto.Width = 150;
+        // 
+        // colComprobante
+        // 
+        colComprobante.HeaderText = "Estado del Comprobante";
+        colComprobante.MinimumWidth = 8;
+        colComprobante.Name = "colComprobante";
+        colComprobante.Width = 150;
+        // 
+        // colFechaPago
+        // 
+        colFechaPago.HeaderText = "Fecha";
+        colFechaPago.MinimumWidth = 8;
+        colFechaPago.Name = "colFechaPago";
+        colFechaPago.Width = 150;
+        // 
         // dgvSorteos
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1222, 450);
+        ClientSize = new Size(979, 450);
         Controls.Add(tabControl1);
         Name = "dgvSorteos";
         Text = "FrmGestion.cs";
         Load += dgvSorteos_Load;
         tabControl1.ResumeLayout(false);
         tabPage1.ResumeLayout(false);
-        tabPage2.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
         splitContainer1.Panel1.ResumeLayout(false);
         splitContainer1.Panel1.PerformLayout();
         splitContainer1.Panel2.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
         splitContainer1.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)dgvPagosPendientes).EndInit();
+        tabPage2.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
         ResumeLayout(false);
     }
 
@@ -294,15 +301,15 @@ partial class dgvSorteos
     private Button btnRechazar;
     private Button btnAprobar;
     private DataGridView dgvPagosPendientes;
-    private DataGridViewTextBoxColumn colIdPago;
-    private DataGridViewTextBoxColumn colDni;
-    private DataGridViewTextBoxColumn colMonto;
-    private DataGridViewTextBoxColumn colComprobante;
-    private DataGridViewTextBoxColumn colFechaPago;
     private DataGridViewTextBoxColumn colId;
     private DataGridViewTextBoxColumn colNombre;
     private DataGridViewTextBoxColumn colFecha;
     private DataGridViewTextBoxColumn colEstado;
     private DataGridViewTextBoxColumn colPrecio;
     private DataGridViewTextBoxColumn colModo;
+    private DataGridViewTextBoxColumn colIdPago;
+    private DataGridViewTextBoxColumn colDni;
+    private DataGridViewTextBoxColumn colMonto;
+    private DataGridViewTextBoxColumn colComprobante;
+    private DataGridViewTextBoxColumn colFechaPago;
 }
