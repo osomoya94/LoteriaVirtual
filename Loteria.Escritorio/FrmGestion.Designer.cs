@@ -54,6 +54,10 @@ partial class dgvSorteos
         btnNuevo = new Button();
         btnEditar = new Button();
         btnActualizar = new Button();
+        flowLayoutPanel2 = new FlowLayoutPanel();
+        btnAbrirVentana = new Button();
+        btnIniciar = new Button();
+        btnCancelar = new Button();
         tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -64,6 +68,7 @@ partial class dgvSorteos
         tabPage2.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
         flowLayoutPanel1.SuspendLayout();
+        flowLayoutPanel2.SuspendLayout();
         SuspendLayout();
         // 
         // tabControl1
@@ -209,6 +214,7 @@ partial class dgvSorteos
         // tabPage2
         // 
         tabPage2.Controls.Add(dataGridView1);
+        tabPage2.Controls.Add(flowLayoutPanel2);
         tabPage2.Controls.Add(flowLayoutPanel1);
         tabPage2.Location = new Point(4, 34);
         tabPage2.Name = "tabPage2";
@@ -226,7 +232,7 @@ partial class dgvSorteos
         dataGridView1.Location = new Point(3, 43);
         dataGridView1.Name = "dataGridView1";
         dataGridView1.RowHeadersWidth = 62;
-        dataGridView1.Size = new Size(965, 366);
+        dataGridView1.Size = new Size(965, 313);
         dataGridView1.TabIndex = 0;
         dataGridView1.CellContentClick += dataGridView1_CellContentClick;
         // 
@@ -312,6 +318,45 @@ partial class dgvSorteos
         btnActualizar.Text = "Refrescar";
         btnActualizar.UseVisualStyleBackColor = true;
         // 
+        // flowLayoutPanel2
+        // 
+        flowLayoutPanel2.BackColor = Color.LightSteelBlue;
+        flowLayoutPanel2.Controls.Add(btnAbrirVentana);
+        flowLayoutPanel2.Controls.Add(btnIniciar);
+        flowLayoutPanel2.Controls.Add(btnCancelar);
+        flowLayoutPanel2.Dock = DockStyle.Bottom;
+        flowLayoutPanel2.Location = new Point(3, 356);
+        flowLayoutPanel2.Name = "flowLayoutPanel2";
+        flowLayoutPanel2.Size = new Size(965, 53);
+        flowLayoutPanel2.TabIndex = 2;
+        // 
+        // btnAbrirVentana
+        // 
+        btnAbrirVentana.Location = new Point(3, 3);
+        btnAbrirVentana.Name = "btnAbrirVentana";
+        btnAbrirVentana.Size = new Size(112, 34);
+        btnAbrirVentana.TabIndex = 0;
+        btnAbrirVentana.Text = "Abrir Ventana";
+        btnAbrirVentana.UseVisualStyleBackColor = true;
+        // 
+        // btnIniciar
+        // 
+        btnIniciar.Location = new Point(121, 3);
+        btnIniciar.Name = "btnIniciar";
+        btnIniciar.Size = new Size(112, 34);
+        btnIniciar.TabIndex = 1;
+        btnIniciar.Text = "Iniciar Sorteo";
+        btnIniciar.UseVisualStyleBackColor = true;
+        // 
+        // btnCancelar
+        // 
+        btnCancelar.Location = new Point(239, 3);
+        btnCancelar.Name = "btnCancelar";
+        btnCancelar.Size = new Size(112, 34);
+        btnCancelar.TabIndex = 2;
+        btnCancelar.Text = "Cancelar";
+        btnCancelar.UseVisualStyleBackColor = true;
+        // 
         // dgvSorteos
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
@@ -333,6 +378,7 @@ partial class dgvSorteos
         tabPage2.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
         flowLayoutPanel1.ResumeLayout(false);
+        flowLayoutPanel2.ResumeLayout(false);
         ResumeLayout(false);
     }
 
@@ -364,4 +410,8 @@ partial class dgvSorteos
     private Button btnNuevo;
     private Button btnEditar;
     private Button btnActualizar;
+    private FlowLayoutPanel flowLayoutPanel2;
+    private Button btnAbrirVentana;
+    private Button btnIniciar;
+    private Button btnCancelar;
 }
