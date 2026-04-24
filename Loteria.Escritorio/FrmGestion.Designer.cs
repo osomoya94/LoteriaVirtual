@@ -305,12 +305,13 @@ partial class dgvSorteos
         // btnIniciar
         // 
         btnIniciar.AutoSize = true;
+        btnIniciar.BackColor = Color.Yellow;
         btnIniciar.Location = new Point(138, 3);
         btnIniciar.Name = "btnIniciar";
         btnIniciar.Size = new Size(126, 35);
         btnIniciar.TabIndex = 1;
         btnIniciar.Text = "Iniciar Sorteo";
-        btnIniciar.UseVisualStyleBackColor = true;
+        btnIniciar.UseVisualStyleBackColor = false;
         // 
         // btnCancelar
         // 
