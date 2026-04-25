@@ -47,6 +47,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
@@ -78,7 +79,7 @@
             // lblNombre
             // 
             lblNombre.AutoSize = true;
-            lblNombre.Location = new Point(13, 10);
+            lblNombre.Location = new Point(16, 13);
             lblNombre.Name = "lblNombre";
             lblNombre.Size = new Size(112, 50);
             lblNombre.TabIndex = 1;
@@ -88,15 +89,15 @@
             // txtNombre
             // 
             txtNombre.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtNombre.Location = new Point(163, 26);
+            txtNombre.Location = new Point(169, 23);
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(624, 31);
+            txtNombre.Size = new Size(615, 31);
             txtNombre.TabIndex = 2;
             // 
             // lblFecha
             // 
             lblFecha.AutoSize = true;
-            lblFecha.Location = new Point(13, 73);
+            lblFecha.Location = new Point(16, 68);
             lblFecha.Name = "lblFecha";
             lblFecha.Size = new Size(57, 25);
             lblFecha.TabIndex = 1;
@@ -107,15 +108,15 @@
             // dtpFecha
             // 
             dtpFecha.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            dtpFecha.Location = new Point(163, 87);
+            dtpFecha.Location = new Point(169, 77);
             dtpFecha.Name = "dtpFecha";
-            dtpFecha.Size = new Size(624, 31);
+            dtpFecha.Size = new Size(615, 31);
             dtpFecha.TabIndex = 2;
             // 
             // lblPrecio
             // 
             lblPrecio.AutoSize = true;
-            lblPrecio.Location = new Point(13, 133);
+            lblPrecio.Location = new Point(16, 121);
             lblPrecio.Name = "lblPrecio";
             lblPrecio.Size = new Size(98, 50);
             lblPrecio.TabIndex = 1;
@@ -126,15 +127,15 @@
             // 
             nudPrecio.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             nudPrecio.DecimalPlaces = 2;
-            nudPrecio.Location = new Point(163, 155);
+            nudPrecio.Location = new Point(169, 143);
             nudPrecio.Name = "nudPrecio";
-            nudPrecio.Size = new Size(624, 31);
+            nudPrecio.Size = new Size(615, 31);
             nudPrecio.TabIndex = 2;
             // 
             // lblModo
             // 
             lblModo.AutoSize = true;
-            lblModo.Location = new Point(13, 208);
+            lblModo.Location = new Point(16, 199);
             lblModo.Name = "lblModo";
             lblModo.Size = new Size(91, 50);
             lblModo.TabIndex = 1;
@@ -146,9 +147,9 @@
             cmbModo.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             cmbModo.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbModo.FormattingEnabled = true;
-            cmbModo.Location = new Point(163, 235);
+            cmbModo.Location = new Point(169, 226);
             cmbModo.Name = "cmbModo";
-            cmbModo.Size = new Size(624, 33);
+            cmbModo.Size = new Size(615, 33);
             cmbModo.TabIndex = 2;
             // 
             // flowLayoutPanel1
@@ -157,15 +158,15 @@
             flowLayoutPanel1.Controls.Add(btnCancelar);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel1.Location = new Point(163, 367);
+            flowLayoutPanel1.Location = new Point(169, 364);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(624, 70);
+            flowLayoutPanel1.Size = new Size(615, 70);
             flowLayoutPanel1.TabIndex = 1;
             // 
             // btnGuardar
             // 
             btnGuardar.DialogResult = DialogResult.OK;
-            btnGuardar.Location = new Point(509, 3);
+            btnGuardar.Location = new Point(500, 3);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(112, 34);
             btnGuardar.TabIndex = 0;
@@ -175,7 +176,7 @@
             // btnCancelar
             // 
             btnCancelar.DialogResult = DialogResult.Cancel;
-            btnCancelar.Location = new Point(391, 3);
+            btnCancelar.Location = new Point(382, 3);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(112, 34);
             btnCancelar.TabIndex = 1;
