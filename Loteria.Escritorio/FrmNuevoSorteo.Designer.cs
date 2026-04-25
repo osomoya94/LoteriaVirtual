@@ -48,8 +48,8 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(cmbModo, 1, 3);
             tableLayoutPanel1.Controls.Add(nudPrecio, 1, 2);
             tableLayoutPanel1.Controls.Add(lblModo, 0, 3);
@@ -59,85 +59,96 @@
             tableLayoutPanel1.Controls.Add(txtNombre, 1, 0);
             tableLayoutPanel1.Controls.Add(lblFecha, 0, 1);
             tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 1, 5);
-            tableLayoutPanel1.Location = new Point(427, 28);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Margin = new Padding(5);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.Padding = new Padding(10);
             tableLayoutPanel1.RowCount = 6;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 38.51351F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 61.48649F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 64F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 66F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
-            tableLayoutPanel1.Size = new Size(338, 273);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 51.04895F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 48.95105F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 75F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 88F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 68F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 75F));
+            tableLayoutPanel1.Size = new Size(800, 450);
             tableLayoutPanel1.TabIndex = 0;
             tableLayoutPanel1.Paint += tableLayoutPanel1_Paint;
             // 
             // lblNombre
             // 
             lblNombre.AutoSize = true;
-            lblNombre.Location = new Point(3, 0);
+            lblNombre.Location = new Point(13, 10);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(83, 36);
+            lblNombre.Size = new Size(112, 50);
             lblNombre.TabIndex = 1;
             lblNombre.Text = "Nombre del Sorteo:";
+            lblNombre.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(103, 3);
+            txtNombre.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtNombre.Location = new Point(163, 26);
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(150, 31);
+            txtNombre.Size = new Size(624, 31);
             txtNombre.TabIndex = 2;
             // 
             // lblFecha
             // 
             lblFecha.AutoSize = true;
-            lblFecha.Location = new Point(3, 36);
+            lblFecha.Location = new Point(13, 73);
             lblFecha.Name = "lblFecha";
             lblFecha.Size = new Size(57, 25);
             lblFecha.TabIndex = 1;
             lblFecha.Text = "Fecha";
+            lblFecha.TextAlign = ContentAlignment.MiddleLeft;
             lblFecha.Click += lblFecha_Click;
             // 
             // dtpFecha
             // 
-            dtpFecha.Location = new Point(103, 39);
+            dtpFecha.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            dtpFecha.Location = new Point(163, 87);
             dtpFecha.Name = "dtpFecha";
-            dtpFecha.Size = new Size(300, 31);
+            dtpFecha.Size = new Size(624, 31);
             dtpFecha.TabIndex = 2;
             // 
             // lblPrecio
             // 
             lblPrecio.AutoSize = true;
-            lblPrecio.Location = new Point(3, 93);
+            lblPrecio.Location = new Point(13, 133);
             lblPrecio.Name = "lblPrecio";
-            lblPrecio.Size = new Size(93, 50);
+            lblPrecio.Size = new Size(98, 50);
             lblPrecio.TabIndex = 1;
             lblPrecio.Text = "Precio por Carton";
+            lblPrecio.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // nudPrecio
             // 
+            nudPrecio.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             nudPrecio.DecimalPlaces = 2;
-            nudPrecio.Location = new Point(103, 96);
+            nudPrecio.Location = new Point(163, 155);
             nudPrecio.Name = "nudPrecio";
-            nudPrecio.Size = new Size(180, 31);
+            nudPrecio.Size = new Size(624, 31);
             nudPrecio.TabIndex = 2;
             // 
             // lblModo
             // 
             lblModo.AutoSize = true;
-            lblModo.Location = new Point(3, 157);
+            lblModo.Location = new Point(13, 208);
             lblModo.Name = "lblModo";
             lblModo.Size = new Size(91, 50);
             lblModo.TabIndex = 1;
             lblModo.Text = "Modo Extraccion";
+            lblModo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // cmbModo
             // 
+            cmbModo.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             cmbModo.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbModo.FormattingEnabled = true;
-            cmbModo.Location = new Point(103, 160);
+            cmbModo.Location = new Point(163, 235);
             cmbModo.Name = "cmbModo";
-            cmbModo.Size = new Size(182, 33);
+            cmbModo.Size = new Size(624, 33);
             cmbModo.TabIndex = 2;
             // 
             // flowLayoutPanel1
@@ -146,15 +157,15 @@
             flowLayoutPanel1.Controls.Add(btnCancelar);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel1.Location = new Point(103, 252);
+            flowLayoutPanel1.Location = new Point(163, 367);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(300, 18);
+            flowLayoutPanel1.Size = new Size(624, 70);
             flowLayoutPanel1.TabIndex = 1;
             // 
             // btnGuardar
             // 
             btnGuardar.DialogResult = DialogResult.OK;
-            btnGuardar.Location = new Point(185, 3);
+            btnGuardar.Location = new Point(509, 3);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(112, 34);
             btnGuardar.TabIndex = 0;
@@ -164,7 +175,7 @@
             // btnCancelar
             // 
             btnCancelar.DialogResult = DialogResult.Cancel;
-            btnCancelar.Location = new Point(67, 3);
+            btnCancelar.Location = new Point(391, 3);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(112, 34);
             btnCancelar.TabIndex = 1;
