@@ -31,6 +31,8 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             lblNombre = new Label();
             txtNombre = new TextBox();
+            lblFecha = new Label();
+            dtpFecha = new DateTimePicker();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -39,14 +41,16 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.Controls.Add(dtpFecha, 1, 1);
             tableLayoutPanel1.Controls.Add(lblNombre, 0, 0);
             tableLayoutPanel1.Controls.Add(txtNombre, 1, 0);
+            tableLayoutPanel1.Controls.Add(lblFecha, 0, 1);
             tableLayoutPanel1.Location = new Point(427, 28);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 6;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 54.1176453F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 45.8823547F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 39F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
@@ -59,7 +63,7 @@
             lblNombre.AutoSize = true;
             lblNombre.Location = new Point(3, 0);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(83, 50);
+            lblNombre.Size = new Size(83, 49);
             lblNombre.TabIndex = 1;
             lblNombre.Text = "Nombre del Sorteo:";
             // 
@@ -69,6 +73,23 @@
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(150, 31);
             txtNombre.TabIndex = 2;
+            // 
+            // lblFecha
+            // 
+            lblFecha.AutoSize = true;
+            lblFecha.Location = new Point(3, 49);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(57, 25);
+            lblFecha.TabIndex = 1;
+            lblFecha.Text = "Fecha";
+            lblFecha.Click += lblFecha_Click;
+            // 
+            // dtpFecha
+            // 
+            dtpFecha.Location = new Point(103, 52);
+            dtpFecha.Name = "dtpFecha";
+            dtpFecha.Size = new Size(300, 31);
+            dtpFecha.TabIndex = 2;
             // 
             // frmNuevoSorteo
             // 
@@ -88,5 +109,7 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Label lblNombre;
         private TextBox txtNombre;
+        private Label lblFecha;
+        private DateTimePicker dtpFecha;
     }
 }

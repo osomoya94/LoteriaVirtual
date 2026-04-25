@@ -19,5 +19,10 @@ namespace Loteria.Escritorio
         {
 
         }
+
+        private void lblFecha_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
