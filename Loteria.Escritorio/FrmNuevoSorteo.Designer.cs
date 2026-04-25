@@ -33,7 +33,10 @@
             txtNombre = new TextBox();
             lblFecha = new Label();
             dtpFecha = new DateTimePicker();
+            lblPrecio = new Label();
+            nudPrecio = new NumericUpDown();
             tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudPrecio).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -41,7 +44,9 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.Controls.Add(nudPrecio, 1, 2);
             tableLayoutPanel1.Controls.Add(dtpFecha, 1, 1);
+            tableLayoutPanel1.Controls.Add(lblPrecio, 0, 2);
             tableLayoutPanel1.Controls.Add(lblNombre, 0, 0);
             tableLayoutPanel1.Controls.Add(txtNombre, 1, 0);
             tableLayoutPanel1.Controls.Add(lblFecha, 0, 1);
@@ -91,6 +96,23 @@
             dtpFecha.Size = new Size(300, 31);
             dtpFecha.TabIndex = 2;
             // 
+            // lblPrecio
+            // 
+            lblPrecio.AutoSize = true;
+            lblPrecio.Location = new Point(3, 91);
+            lblPrecio.Name = "lblPrecio";
+            lblPrecio.Size = new Size(93, 40);
+            lblPrecio.TabIndex = 1;
+            lblPrecio.Text = "Precio por Carton";
+            // 
+            // nudPrecio
+            // 
+            nudPrecio.DecimalPlaces = 2;
+            nudPrecio.Location = new Point(103, 94);
+            nudPrecio.Name = "nudPrecio";
+            nudPrecio.Size = new Size(180, 31);
+            nudPrecio.TabIndex = 2;
+            // 
             // frmNuevoSorteo
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -101,6 +123,7 @@
             Text = "FrmNuevoSorteo";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudPrecio).EndInit();
             ResumeLayout(false);
         }
 
@@ -111,5 +134,7 @@
         private TextBox txtNombre;
         private Label lblFecha;
         private DateTimePicker dtpFecha;
+        private NumericUpDown nudPrecio;
+        private Label lblPrecio;
     }
 }
