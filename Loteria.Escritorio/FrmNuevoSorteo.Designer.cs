@@ -69,8 +69,8 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 51.04895F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 48.95105F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 75F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 88F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 68F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 96F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 75F));
             tableLayoutPanel1.Size = new Size(800, 450);
             tableLayoutPanel1.TabIndex = 0;
@@ -88,11 +88,11 @@
             // 
             // txtNombre
             // 
-            txtNombre.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtNombre.Location = new Point(169, 23);
+            txtNombre.Dock = DockStyle.Fill;
+            txtNombre.Location = new Point(169, 16);
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(615, 31);
-            txtNombre.TabIndex = 2;
+            txtNombre.TabIndex = 1;
             // 
             // lblFecha
             // 
@@ -107,8 +107,8 @@
             // 
             // dtpFecha
             // 
-            dtpFecha.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            dtpFecha.Location = new Point(169, 77);
+            dtpFecha.Dock = DockStyle.Fill;
+            dtpFecha.Location = new Point(169, 71);
             dtpFecha.Name = "dtpFecha";
             dtpFecha.Size = new Size(615, 31);
             dtpFecha.TabIndex = 2;
@@ -125,12 +125,12 @@
             // 
             // nudPrecio
             // 
-            nudPrecio.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             nudPrecio.DecimalPlaces = 2;
-            nudPrecio.Location = new Point(169, 143);
+            nudPrecio.Dock = DockStyle.Fill;
+            nudPrecio.Location = new Point(169, 124);
             nudPrecio.Name = "nudPrecio";
             nudPrecio.Size = new Size(615, 31);
-            nudPrecio.TabIndex = 2;
+            nudPrecio.TabIndex = 3;
             // 
             // lblModo
             // 
@@ -144,13 +144,13 @@
             // 
             // cmbModo
             // 
-            cmbModo.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            cmbModo.Dock = DockStyle.Fill;
             cmbModo.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbModo.FormattingEnabled = true;
-            cmbModo.Location = new Point(169, 226);
+            cmbModo.Location = new Point(169, 202);
             cmbModo.Name = "cmbModo";
             cmbModo.Size = new Size(615, 33);
-            cmbModo.TabIndex = 2;
+            cmbModo.TabIndex = 4;
             // 
             // flowLayoutPanel1
             // 
@@ -165,23 +165,25 @@
             // 
             // btnGuardar
             // 
+            btnGuardar.BackColor = Color.LimeGreen;
             btnGuardar.DialogResult = DialogResult.OK;
             btnGuardar.Location = new Point(500, 3);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(112, 34);
-            btnGuardar.TabIndex = 0;
+            btnGuardar.TabIndex = 6;
             btnGuardar.Text = "Guardar";
-            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.UseVisualStyleBackColor = false;
             // 
             // btnCancelar
             // 
+            btnCancelar.BackColor = Color.Red;
             btnCancelar.DialogResult = DialogResult.Cancel;
             btnCancelar.Location = new Point(382, 3);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(112, 34);
-            btnCancelar.TabIndex = 1;
+            btnCancelar.TabIndex = 5;
             btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.UseVisualStyleBackColor = false;
             // 
             // frmNuevoSorteo
             // 
