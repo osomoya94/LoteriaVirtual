@@ -161,6 +161,7 @@ partial class dgvSorteos
         btnAprobar.TabIndex = 1;
         btnAprobar.Text = "Aprobar";
         btnAprobar.UseVisualStyleBackColor = false;
+        btnAprobar.Click += btnAprobar_Click;
         // 
         // dgvPagosPendientes
         // 

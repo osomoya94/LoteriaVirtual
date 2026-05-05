@@ -35,5 +35,17 @@ public partial class dgvSorteos : Form
         }
     }
 
+    private void btnAprobar_Click(object sender, EventArgs e)
+    { 
+        // Esto es un cuadro de confirmación para evitar errores
+        DialogResult resultado = MessageBox.Show("¿Está seguro que desea aprobar este pago?",
+            "Confirmar Validación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+        if (resultado == DialogResult.Yes)
+        {
+            // Aquí irá la llamada a la API después
+            MessageBox.Show("Pago aprobado con éxito.");
+    }
+    
+}
 }
