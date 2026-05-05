@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tableLayoutPanel1 = new TableLayoutPanel();
             cmbModo = new ComboBox();
             nudPrecio = new NumericUpDown();
@@ -40,9 +41,11 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             btnGuardar = new Button();
             btnCancelar = new Button();
+            errorProvider1 = new ErrorProvider(components);
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudPrecio).BeginInit();
             flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -94,6 +97,7 @@
             nudPrecio.Name = "nudPrecio";
             nudPrecio.Size = new Size(615, 31);
             nudPrecio.TabIndex = 3;
+            nudPrecio.KeyPress += nudPrecio_KeyPress;
             // 
             // lblModo
             // 
@@ -187,6 +191,10 @@
             btnCancelar.UseVisualStyleBackColor = false;
             btnCancelar.Click += btnCancelar_Click;
             // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
+            // 
             // frmNuevoSorteo
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -199,6 +207,7 @@
             tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudPrecio).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
         }
 
@@ -216,5 +225,6 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Button btnGuardar;
         private Button btnCancelar;
+        private ErrorProvider errorProvider1;
     }
 }

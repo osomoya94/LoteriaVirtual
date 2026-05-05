@@ -27,21 +27,40 @@ namespace Loteria.Escritorio
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validaciones simples (opcional por ahora)
-            // ...
+            // Limpiamos errores previos
+            errorProvider1.SetError(txtNombre, "");
 
-            // Le decimos al formulario que se cierre devolviendo un resultado "OK"
+            // Validamos si el nombre está vacío
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                errorProvider1.SetError(txtNombre, "El nombre del sorteo es obligatorio.");
+                txtNombre.Focus(); // Ponemos el cursor ahí para que el usuario escriba
+                return; // Cortamos la ejecución aquí, no se cierra el formulario
+            }
+
+            // Si pasó la validación, avisamos que todo OK
             this.DialogResult = DialogResult.OK;
             this.Close();
-
-
         }
+
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+
+        }
+
+        private void nudPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        { 
+            // Solo permitimos números, la coma (o punto según tu configuración) y borrar
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ','))
+            {
+                e.Handled = true; // Bloquea cualquier otra tecla (letras, símbolos, etc.)
+            }
         
     }
+        }
     }
+    
 }
