@@ -24,5 +24,24 @@ namespace Loteria.Escritorio
         {
 
         }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            // Validaciones simples (opcional por ahora)
+            // ...
+
+            // Le decimos al formulario que se cierre devolviendo un resultado "OK"
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+
+
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        
+    }
     }
 }

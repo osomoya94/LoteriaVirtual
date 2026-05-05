@@ -344,8 +344,9 @@ partial class dgvSorteos
         btnNuevo.Name = "btnNuevo";
         btnNuevo.Size = new Size(132, 35);
         btnNuevo.TabIndex = 0;
-        btnNuevo.Text = "Nuevo Sroteo";
+        btnNuevo.Text = "Nuevo Sorteo";
         btnNuevo.UseVisualStyleBackColor = true;
+        btnNuevo.Click += btnNuevo_Click;
         // 
         // btnEditar
         // 

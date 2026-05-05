@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
+            cmbModo = new ComboBox();
+            nudPrecio = new NumericUpDown();
+            lblModo = new Label();
+            dtpFecha = new DateTimePicker();
+            lblPrecio = new Label();
             lblNombre = new Label();
             txtNombre = new TextBox();
             lblFecha = new Label();
-            dtpFecha = new DateTimePicker();
-            lblPrecio = new Label();
-            nudPrecio = new NumericUpDown();
-            lblModo = new Label();
-            cmbModo = new ComboBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             btnGuardar = new Button();
             btnCancelar = new Button();
@@ -76,6 +76,53 @@
             tableLayoutPanel1.TabIndex = 0;
             tableLayoutPanel1.Paint += tableLayoutPanel1_Paint;
             // 
+            // cmbModo
+            // 
+            cmbModo.Dock = DockStyle.Fill;
+            cmbModo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbModo.FormattingEnabled = true;
+            cmbModo.Location = new Point(169, 202);
+            cmbModo.Name = "cmbModo";
+            cmbModo.Size = new Size(615, 33);
+            cmbModo.TabIndex = 4;
+            // 
+            // nudPrecio
+            // 
+            nudPrecio.DecimalPlaces = 2;
+            nudPrecio.Dock = DockStyle.Fill;
+            nudPrecio.Location = new Point(169, 124);
+            nudPrecio.Name = "nudPrecio";
+            nudPrecio.Size = new Size(615, 31);
+            nudPrecio.TabIndex = 3;
+            // 
+            // lblModo
+            // 
+            lblModo.AutoSize = true;
+            lblModo.Location = new Point(16, 199);
+            lblModo.Name = "lblModo";
+            lblModo.Size = new Size(91, 50);
+            lblModo.TabIndex = 1;
+            lblModo.Text = "Modo Extraccion";
+            lblModo.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // dtpFecha
+            // 
+            dtpFecha.Dock = DockStyle.Fill;
+            dtpFecha.Location = new Point(169, 71);
+            dtpFecha.Name = "dtpFecha";
+            dtpFecha.Size = new Size(615, 31);
+            dtpFecha.TabIndex = 2;
+            // 
+            // lblPrecio
+            // 
+            lblPrecio.AutoSize = true;
+            lblPrecio.Location = new Point(16, 121);
+            lblPrecio.Name = "lblPrecio";
+            lblPrecio.Size = new Size(98, 50);
+            lblPrecio.TabIndex = 1;
+            lblPrecio.Text = "Precio por Carton";
+            lblPrecio.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // lblNombre
             // 
             lblNombre.AutoSize = true;
@@ -105,53 +152,6 @@
             lblFecha.TextAlign = ContentAlignment.MiddleLeft;
             lblFecha.Click += lblFecha_Click;
             // 
-            // dtpFecha
-            // 
-            dtpFecha.Dock = DockStyle.Fill;
-            dtpFecha.Location = new Point(169, 71);
-            dtpFecha.Name = "dtpFecha";
-            dtpFecha.Size = new Size(615, 31);
-            dtpFecha.TabIndex = 2;
-            // 
-            // lblPrecio
-            // 
-            lblPrecio.AutoSize = true;
-            lblPrecio.Location = new Point(16, 121);
-            lblPrecio.Name = "lblPrecio";
-            lblPrecio.Size = new Size(98, 50);
-            lblPrecio.TabIndex = 1;
-            lblPrecio.Text = "Precio por Carton";
-            lblPrecio.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // nudPrecio
-            // 
-            nudPrecio.DecimalPlaces = 2;
-            nudPrecio.Dock = DockStyle.Fill;
-            nudPrecio.Location = new Point(169, 124);
-            nudPrecio.Name = "nudPrecio";
-            nudPrecio.Size = new Size(615, 31);
-            nudPrecio.TabIndex = 3;
-            // 
-            // lblModo
-            // 
-            lblModo.AutoSize = true;
-            lblModo.Location = new Point(16, 199);
-            lblModo.Name = "lblModo";
-            lblModo.Size = new Size(91, 50);
-            lblModo.TabIndex = 1;
-            lblModo.Text = "Modo Extraccion";
-            lblModo.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // cmbModo
-            // 
-            cmbModo.Dock = DockStyle.Fill;
-            cmbModo.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbModo.FormattingEnabled = true;
-            cmbModo.Location = new Point(169, 202);
-            cmbModo.Name = "cmbModo";
-            cmbModo.Size = new Size(615, 33);
-            cmbModo.TabIndex = 4;
-            // 
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.Controls.Add(btnGuardar);
@@ -165,7 +165,7 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.BackColor = Color.LimeGreen;
+            btnGuardar.BackColor = Color.MediumSeaGreen;
             btnGuardar.DialogResult = DialogResult.OK;
             btnGuardar.Location = new Point(500, 3);
             btnGuardar.Name = "btnGuardar";
@@ -173,6 +173,7 @@
             btnGuardar.TabIndex = 6;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnCancelar
             // 
@@ -184,6 +185,7 @@
             btnCancelar.TabIndex = 5;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = false;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // frmNuevoSorteo
             // 
