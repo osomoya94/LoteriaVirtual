@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using MySqlConnector;
 using System.Text;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +38,26 @@ builder.Services.AddTransient<CartonRepository>();
 builder.Services.AddTransient<CartonService>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+{
+    {
+        new OpenApiSecuritySchemeReference("Bearer", document, null),
+        new List<string>()
+    }
+});
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Escribe: Bearer {tu token}",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+});
 
 //CONFIGURACIÓN DE SEGURIDAD JWT
 var jwtKey = builder.Configuration["Jwt:Key"];
