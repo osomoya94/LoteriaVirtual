@@ -6,6 +6,7 @@ namespace Loteria.Entidades.Identity
 {
     public class Carton
     {
+        public int? JugadorId { get; set; }
         public int Id { get; set; }
         public int Id_sorteo { get; set; }
         public required string Codigo_unico { get; set; }

@@ -1,18 +1,27 @@
 ﻿using Loteria.Datos.Repositorios;
+using Loteria.Entidades.DTOs;
 using Loteria.Entidades.Identity;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Loteria.Negocio.Servicios
 {
     public class SorteoService
     {
-        private readonly SorteoRepository _sorteoRepository;
+        private const string EstadoBorrador = "BORRADOR";
+        private const string EstadoEnVenta = "EN_VENTA";
+        private const string EstadoFinalizado = "FINALIZADO";
 
-        public SorteoService(SorteoRepository sorteoRepository)
+        private readonly SorteoRepository _sorteoRepository;
+        private readonly CartonRepository _cartonRepository;
+
+        public SorteoService(SorteoRepository sorteoRepository, CartonRepository cartonRepository)
         {
             _sorteoRepository = sorteoRepository;
+            _cartonRepository = cartonRepository;
         }
 
         public async Task<IEnumerable<Sorteo>> ObtenerTodosAsync() 
@@ -89,6 +98,130 @@ namespace Loteria.Negocio.Servicios
         }
 
 
+        public async Task AbrirSorteoAsync(int id, int cantidadPedida ) 
+        {
+            var sorteo = await ObtenerPorIdAsync(id);
+
+            if(sorteo == null || sorteo.Estado != EstadoBorrador) 
+            {
+                throw new Exception ("El sorteo no existe o ya fue realizado");
+            }
+
+            if (cantidadPedida <= 0)
+            {
+                throw new Exception("La cantidad de cartones a generar debe ser mayor a cero.");
+            }
+
+            string rutaCartones = Path.Combine(AppContext.BaseDirectory, "Recursos", "Cartones.txt");
+            if (!File.Exists(rutaCartones))
+            {
+                throw new FileNotFoundException("No se encontró el archivo de patrones de cartones.", rutaCartones);
+            }
+
+            string[] todosLosRenglones = await File.ReadAllLinesAsync(rutaCartones);
+
+            if (cantidadPedida > todosLosRenglones.Length)
+            {
+                throw new Exception($"No hay suficientes patrones en Cartones.txt. Pedidos: {cantidadPedida}, disponibles: {todosLosRenglones.Length}.");
+            }
+
+            
+            var renglonesElegidos = todosLosRenglones
+                .OrderBy(renglon => Guid.NewGuid()) 
+                .Take(cantidadPedida) 
+                .ToList();
+
+            var nuevosCartones = new List<Carton>();
+            
+            foreach (var renglon in renglonesElegidos)
+            {
+                string[] pedacitos = renglon.Split(',');
+
+                var quinceNumeros = pedacitos.Skip(1).Take(15);
+
+                string patron = string.Join("-", quinceNumeros);
+
+                string numeroCartonArchivo = pedacitos[0].Trim();
+
+                string codigoOriginal = pedacitos.Last().Replace("\"", "").Trim();
+
+                var nuevoCarton = new Carton
+                {
+                    Id_sorteo = sorteo.Id,
+
+                    Codigo_unico = $"{codigoOriginal}-{numeroCartonArchivo}-{sorteo.Id}",
+
+                    Patron_contenido = patron,
+
+                    Hash_contenido = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(patron))),
+
+                    Estado = "DISPONIBLE",
+                    fecha_generacion = DateTime.UtcNow 
+                };
+
+                nuevosCartones.Add(nuevoCarton);
+            }
+
+            await _cartonRepository.CrearCartonesMasivoAsync(nuevosCartones);
+            await _sorteoRepository.ActualizarEstadoAsync(sorteo.Id, EstadoEnVenta);
+
+        }
+
+
+        public async Task<ResultadoSorteoDTO> RealizarSorteoAsync(int idSorteo) 
+        {
+              var cartonesVendidos = await _cartonRepository.ObtenerCartonesVendidosPorSorteoAsync(idSorteo);
+
+            if (cartonesVendidos == null || !cartonesVendidos.Any() ) 
+            {
+                throw new Exception("No tenemos cartones vendidos para realizar el sorteo ");
+            }
+
+            var bolillero = Enumerable.Range(1, 90).OrderBy(x => Guid.NewGuid()).ToList();
+
+            List<int> listaNumeros = new List<int>();
+            bool hayGanador = false;
+            int i = 0;
+            List <Carton> cartonGanador = new List<Carton>();
+
+            while (!hayGanador) 
+            {
+                int numero = bolillero[i];
+
+                listaNumeros.Add(numero);
+
+                foreach (Carton carton in cartonesVendidos ) 
+                {
+                    var numerosDelCarton = carton.Patron_contenido.Split('-').Select(int.Parse).ToList();
+
+                    bool esGanador = numerosDelCarton.All(n => listaNumeros.Contains(n));
+
+                    if (esGanador) 
+                    {
+                        cartonGanador.Add(carton);
+                        hayGanador = true;
+                    }
+                }
+
+                i++;
+            }
+
+            await _sorteoRepository.ActualizarEstadoAsync(idSorteo, EstadoFinalizado);
+
+            var resultado = new ResultadoSorteoDTO 
+            {
+                ListaNumeros = listaNumeros,
+                CartonGanadores = cartonGanador
+            };
+
+
+            return resultado;
+        }
+
+
+
+
     }
+
 }
 

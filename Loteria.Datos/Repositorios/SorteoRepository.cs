@@ -59,7 +59,7 @@ namespace Loteria.Datos.Repositorios
         public async Task ActualizarSorteoAsync(Sorteo sorteoEditado) 
         {
             
-            string sql = "UPDATE Sorteos SET Nombre = @Nombre, Fecha_sorteo = @Fecha_sorteo, Estado = @Estado, Porcentaje_premio = @Porcentaje_premio, Modo_extraccion = @Modo_extraccion WHERE Id = @Id";
+            string sql = "UPDATE Sorteos SET Nombre = @Nombre, Fecha_sorteo = @Fecha_sorteo, Estado = @Estado, Porcentaje_premio = @Porcentaje_premio, Modo_extraccion = @Modo_extraccion, Permite_multiples_ganadores = @Permite_multiples_ganadores , Configuracion_premio = @Configuracion_premio  WHERE Id = @Id";
 
             using (var conexion = _connectionFactory.CreateConnection()) 
             {
@@ -74,6 +74,16 @@ namespace Loteria.Datos.Repositorios
             using (var conexion = _connectionFactory.CreateConnection())
             {
                 await conexion.ExecuteAsync(sql, new { Id = id });
+            }
+        }
+
+        public async Task ActualizarEstadoAsync(int id, string estado)
+        {
+            string sql = "UPDATE Sorteos SET Estado = @Estado WHERE Id = @Id;";
+
+            using (var conexion = _connectionFactory.CreateConnection())
+            {
+                await conexion.ExecuteAsync(sql, new { Id = id, Estado = estado });
             }
         }
 
