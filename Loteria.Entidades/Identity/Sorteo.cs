@@ -11,7 +11,6 @@ namespace Loteria.Entidades.Identity
         public int Cantidad_cartones { get; set; }
         public decimal Precio_carton { get; set; }
         public decimal Porcentaje_premio { get; set; }
-
         public int Intervalo_extraccion_segundos { get; set; }
         public string Modo_extraccion { get; set; } = "AUTOMATICA";
 

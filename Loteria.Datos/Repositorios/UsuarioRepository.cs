@@ -46,16 +46,16 @@ namespace Loteria.Datos.Repositorios
         }
 
         // Método para registrar un nuevo usuario en el sistema
-        public async Task CrearUsuarioAsync(Usuario nuevoUsuario)
+        public async Task<int> CrearUsuarioAsync(Usuario nuevoUsuario)
         {
             // Usamos los nombres exactos de las columnas de tu script SQL
             string sql = @"INSERT INTO usuarios (RolId, Username, PasswordHash, Activo) 
-                           VALUES (@RolId, @Username, @PasswordHash, @Activo);";
+                           VALUES (@RolId, @Username, @PasswordHash, @Activo); SELECT LAST_INSERT_ID(); ";
 
             using (var conexion = _connectionFactory.CreateConnection())
             {
-                // ExecuteAsync es el verbo correcto para INSERT, UPDATE o DELETE
-                await conexion.ExecuteAsync(sql, nuevoUsuario);
+                
+                return await conexion.QuerySingleAsync<int>(sql, nuevoUsuario);
             }
         }
 
@@ -65,6 +65,7 @@ namespace Loteria.Datos.Repositorios
 
             using (var conexion = _connectionFactory.CreateConnection()) 
             {
+                // ExecuteAsync es el verbo correcto para INSERT, UPDATE o DELETE
                 await conexion.ExecuteAsync(sql, usuarioEditado);
             }
         }

@@ -14,5 +14,6 @@ namespace Loteria.Entidades.Identity
         public required string Email { get; set; }
         public decimal Saldo { get; set; }
         public string Estado { get; set; } = "Activo";
+        public List<Carton> Cartones { get; set; } = new List<Carton>();
     }
 }
