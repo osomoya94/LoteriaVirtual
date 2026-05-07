@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Loteria.Entidades
 {
-    public class Sorteo
+    public class SorteoEscritorio
     {
             public int Id { get; set; }
             public string Nombre { get; set; } = string.Empty;
