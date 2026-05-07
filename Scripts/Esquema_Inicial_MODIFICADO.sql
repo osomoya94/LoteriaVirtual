@@ -49,7 +49,6 @@ CREATE TABLE IF NOT EXISTS `jugadores` (
   `Apellido` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Saldo` decimal(10,2) DEFAULT 0.00,
-  `Estado` varchar(20) DEFAULT 'Activo',
   PRIMARY KEY (`Id`),
   UNIQUE KEY `UsuarioId` (`UsuarioId`),
   UNIQUE KEY `Dni` (`Dni`),
@@ -202,3 +201,8 @@ CREATE TABLE IF NOT EXISTS `auditoria` (
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+ALTER TABLE jugadores ADD COLUMN Estado VARCHAR(20) DEFAULT 'Activo';
+
+ALTER TABLE `cartones` 
+ADD COLUMN `jugador_id` int(11) NULL AFTER `id_sorteo`,
+ADD CONSTRAINT `cartones_ibfk_2` FOREIGN KEY (`jugador_id`) REFERENCES `jugadores` (`id`);
