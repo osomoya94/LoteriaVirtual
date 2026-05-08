@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Loteria.Entidades
+namespace Loteria.Entidades.Identity
 { public class Pago
         {
             public int Id { get; set; }
