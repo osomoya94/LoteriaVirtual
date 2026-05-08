@@ -15,17 +15,17 @@ namespace Loteria.Escritorio
             InitializeComponent();
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        private void TableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void lblFecha_Click(object sender, EventArgs e)
+        private void LblFecha_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
+        private void BtnGuardar_Click(object sender, EventArgs e)
         {
             // Limpiamos errores previos
             errorProvider1.SetError(txtNombre, "");
@@ -44,14 +44,14 @@ namespace Loteria.Escritorio
         }
 
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void BtnCancelar_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
 
         }
 
-        private void nudPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        private void NudPrecio_KeyPress(object sender, KeyPressEventArgs e)
         { 
             // Solo permitimos números, la coma (o punto según tu configuración) y borrar
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ','))
@@ -63,4 +63,4 @@ namespace Loteria.Escritorio
         }
     }
     
-}
+
