@@ -1,0 +1,40 @@
+body {
+    min-height: 100vh;
+    background: #f4f7fb;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: .01em;
+}
+
+.dashboard-hero {
+    background: linear-gradient(135deg, #0d6efd, #198754);
+    border-radius: 1rem;
+    color: #fff;
+    padding: 2rem;
+}
+
+.dashboard-card {
+    border: 0;
+    border-radius: .75rem;
+    box-shadow: 0 .75rem 2rem rgba(15, 23, 42, .08);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.dashboard-card:hover {
+    box-shadow: 0 1rem 2.5rem rgba(15, 23, 42, .12);
+    transform: translateY(-4px);
+}
+
+.feature-icon {
+    align-items: center;
+    background: rgba(13, 110, 253, .1);
+    border-radius: 50%;
+    color: #0d6efd;
+    display: inline-flex;
+    font-size: 2rem;
+    height: 4rem;
+    justify-content: center;
+    width: 4rem;
+}

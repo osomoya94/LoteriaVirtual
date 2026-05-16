@@ -12,7 +12,7 @@ namespace Loteria.Negocio.Servicios
     public class SorteoService
     {
         private const string EstadoBorrador = "BORRADOR";
-        private const string EstadoEnVenta = "EN_VENTA";
+        private const string EstadoEnVenta = "ABIERTO";
         private const string EstadoFinalizado = "FINALIZADO";
 
         private readonly SorteoRepository _sorteoRepository;
@@ -170,7 +170,20 @@ namespace Loteria.Negocio.Servicios
 
         public async Task<ResultadoSorteoDTO> RealizarSorteoAsync(int idSorteo) 
         {
-              var cartonesVendidos = await _cartonRepository.ObtenerCartonesVendidosPorSorteoAsync(idSorteo);
+
+            var sorteoActual = await _sorteoRepository.ObtenerPorIdAsync(idSorteo);
+
+            if (sorteoActual == null)
+            {
+                throw new Exception("El sorteo no existe.");
+            }
+            if (sorteoActual.Estado.ToUpper() != "ABIERTO")
+            {
+                throw new Exception($"No se puede jugar. El sorteo se encuentra en estado: {sorteoActual.Estado}");
+            }
+
+
+            var cartonesVendidos = await _cartonRepository.ObtenerCartonesVendidosPorSorteoAsync(idSorteo);
 
             if (cartonesVendidos == null || !cartonesVendidos.Any() ) 
             {
@@ -206,14 +219,17 @@ namespace Loteria.Negocio.Servicios
                 i++;
             }
 
-            await _sorteoRepository.ActualizarEstadoAsync(idSorteo, EstadoFinalizado);
+            var primerGanador = cartonGanador.FirstOrDefault();
+            int idGanador = primerGanador != null ? primerGanador.Id : 0;
+            int idJugador = primerGanador != null ? (primerGanador.JugadorId ?? 0) : 0;
 
-            var resultado = new ResultadoSorteoDTO 
+            await _sorteoRepository.GuardarResultadoSorteoAsync(idSorteo, EstadoFinalizado, listaNumeros, idGanador, idJugador);
+
+            var resultado = new ResultadoSorteoDTO
             {
                 ListaNumeros = listaNumeros,
                 CartonGanadores = cartonGanador
             };
-
 
             return resultado;
         }

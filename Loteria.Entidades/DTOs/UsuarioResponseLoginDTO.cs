@@ -11,5 +11,6 @@ namespace Loteria.Entidades.DTOs
         public required string Username { get; set; }
         public bool Activo { get; set; }
         public required string Token { get; set; }
+        public int? JugadorId { get; set; }
     }
 }

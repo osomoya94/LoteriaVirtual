@@ -33,6 +33,18 @@ namespace Loteria.Negocio.Servicios
             return await _cartonRepository.ObtenerCartonesPorSorteoAsync(idSorteo);
         }
 
+        public async Task<IEnumerable<CartonMisJugadasDTO>> ObtenerMisJugadasAsync(int jugadorId)
+        {
+            var jugador = await _jugadorRepository.ObtenerPorIdAsync(jugadorId);
+
+            if (jugador == null)
+            {
+                throw new Exception("Jugador no existe");
+            }
+
+            return await _cartonRepository.ObtenerMisJugadasAsync(jugadorId);
+        }
+
         public async Task CrearCartonAsync(Carton nuevoCarton) 
         {
             var sorteo = await _sorteoRepository.ObtenerPorIdAsync(nuevoCarton.Id_sorteo);

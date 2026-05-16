@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using MySqlConnector;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.OpenApi;
 
@@ -82,6 +83,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+app.UseSwagger();
 
 // Configuraciones del entorno HTTP
 if (app.Environment.IsDevelopment())
@@ -91,6 +93,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseAuthentication(); // 1. Primero verifica que el pasaporte sea original y no esté vencido
 app.UseAuthorization();  // 2. Después verifica qué Rol tiene anotado adentro
@@ -546,7 +550,7 @@ app.MapDelete("/api/jugadores/{id}", async (int id, JugadorService servicio) =>
 
 //SORTEOS
 //PROBADO
-app.MapGet("/api/sorteos", async (SorteoService service) => 
+app.MapGet("/api/sorteos", async (SorteoService service) =>
 {
     try
     {
@@ -574,10 +578,10 @@ app.MapGet("/api/sorteos", async (SorteoService service) =>
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1"));
+}).RequireAuthorization(policy => policy.RequireRole("1","2"));
 
 //PROBADO
-app.MapPost("/api/sorteos", async (SorteoService service, Sorteo nuevoSorteo) => 
+app.MapPost("/api/sorteos", async (SorteoService service, Sorteo nuevoSorteo) =>
 {
     try
     {
@@ -593,7 +597,7 @@ app.MapPost("/api/sorteos", async (SorteoService service, Sorteo nuevoSorteo) =>
 
         return Results.Ok(respuestaExitosa);
     }
-    catch (Exception ex) 
+    catch (Exception ex)
     {
         var respuestaError = new ApiResponseDTO
         {
@@ -605,7 +609,7 @@ app.MapPost("/api/sorteos", async (SorteoService service, Sorteo nuevoSorteo) =>
 
         return Results.BadRequest(respuestaError);
     }
-});
+}).RequireAuthorization(policy => policy.RequireRole("1"));
 
 //PROBADO
 app.MapGet("/api/sorteos/{id}", async (int id , SorteoService service) => 
@@ -649,10 +653,10 @@ app.MapGet("/api/sorteos/{id}", async (int id , SorteoService service) =>
 
         return Results.BadRequest(respuestaError);
     }
-});
+}).RequireAuthorization(policy => policy.RequireRole("1", "2"));
 
 //PROBADO
-app.MapPut("/api/sorteos/{id}", async (int id, SorteoService service, Sorteo sorteoModificado) => 
+app.MapPut("/api/sorteos/{id}", async (int id, SorteoService service, Sorteo sorteoModificado) =>
 {
     if (sorteoModificado.Id != id)
     {
@@ -682,7 +686,7 @@ app.MapPut("/api/sorteos/{id}", async (int id, SorteoService service, Sorteo sor
         return Results.NotFound(respuestaError);
     }
 
-    try 
+    try
     {
         await service.ActualizarSorteoAsync(sorteoModificado);
 
@@ -695,7 +699,7 @@ app.MapPut("/api/sorteos/{id}", async (int id, SorteoService service, Sorteo sor
         };
 
         return Results.Ok(respuestaExitosa);
-    } catch (Exception ex) 
+    } catch (Exception ex)
     {
         var respuestaError = new ApiResponseDTO
         {
@@ -772,7 +776,7 @@ app.MapGet("/api/sorteos/{idSorteo}/cartones", async (int idSorteo, CartonServic
             Errores = null
         };
 
-        return Results.Ok(respuestaExitosa); 
+        return Results.Ok(respuestaExitosa);
     }
     catch (Exception ex)
     {
@@ -786,7 +790,87 @@ app.MapGet("/api/sorteos/{idSorteo}/cartones", async (int idSorteo, CartonServic
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1"));
+}).RequireAuthorization(policy => policy.RequireRole("1","2"));
+
+app.MapGet("/api/jugadores/{idJugador}/mis-jugadas", async (int idJugador, CartonService service) =>
+{
+    try
+    {
+        var jugadas = await service.ObtenerMisJugadasAsync(idJugador);
+
+        var respuestaExitosa = new ApiResponseDTO
+        {
+            OK = true,
+            Mensaje = "Retornando las jugadas del jugador",
+            Data = jugadas,
+            Errores = null
+        };
+
+        return Results.Ok(respuestaExitosa);
+    }
+    catch (Exception ex)
+    {
+        var respuestaError = new ApiResponseDTO
+        {
+            OK = false,
+            Mensaje = "Error",
+            Data = null,
+            Errores = ex.Message
+        };
+
+        return Results.BadRequest(respuestaError);
+    }
+}).RequireAuthorization(policy => policy.RequireRole("2"));
+
+app.MapPut("/api/jugadores/{idJugador}/mis-jugadas/{idCarton}/cancelar", async (int idJugador, int idCarton, CartonService service, JugadorRepository jugadorRepository, ClaimsPrincipal usuarioActual) =>
+{
+    try
+    {
+        var usuarioIdTexto = usuarioActual.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (!int.TryParse(usuarioIdTexto, out int usuarioId))
+        {
+            return Results.Forbid();
+        }
+
+        var jugador = await jugadorRepository.ObtenerPorUsuarioIdAsync(usuarioId);
+
+        if (jugador == null || jugador.Id != idJugador)
+        {
+            return Results.Forbid();
+        }
+
+        var pedido = new CompraCartonesDTO
+        {
+            JugadorId = idJugador,
+            CartonesIds = new List<int> { idCarton }
+        };
+
+        await service.CancelarCartonReservaAsync(pedido);
+
+        var respuestaExitosa = new ApiResponseDTO
+        {
+            OK = true,
+            Mensaje = "Jugada cancelada con exito",
+            Data = null,
+            Errores = null
+        };
+
+        return Results.Ok(respuestaExitosa);
+    }
+    catch (Exception ex)
+    {
+        var respuestaError = new ApiResponseDTO
+        {
+            OK = false,
+            Mensaje = "Error",
+            Data = null,
+            Errores = ex.Message
+        };
+
+        return Results.BadRequest(respuestaError);
+    }
+}).RequireAuthorization(policy => policy.RequireRole("2"));
 
 //CREAR CARTONES A MANO
 // PROBADO
@@ -948,7 +1032,7 @@ app.MapPost("/api/sorteos/{id}/abrir", async (int id, AbrirSorteoDTO datos, Sort
 }).RequireAuthorization(policy => policy.RequireRole("1"));
 
 //Emepzar sorteos
-app.MapPost("/api/sorteos/{id}/jugar",async (int id, SorteoService service) => 
+app.MapPost("/api/sorteos/{id}/jugar", async (int id, SorteoService service) =>
 {
     try
     {
@@ -977,7 +1061,7 @@ app.MapPost("/api/sorteos/{id}/jugar",async (int id, SorteoService service) =>
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1"));
+});//.RequireAuthorization(policy => policy.RequireRole("1"));
 
 using (var scope = app.Services.CreateScope())
 {

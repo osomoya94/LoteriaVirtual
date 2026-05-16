@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Loteria.Datos.Repositorios;
+using Loteria.Entidades.DTOs;
 using Loteria.Entidades.Identity;
 using MySqlConnector;
 using System;
@@ -120,6 +121,27 @@ namespace Loteria.Datos.Repositorios
             using (var conexion = _connectionFactory.CreateConnection())
             {
                 return await conexion.QueryAsync<Carton>(sql, new { jugadorId = jugadorId });
+            }
+        }
+
+        public async Task<IEnumerable<CartonMisJugadasDTO>> ObtenerMisJugadasAsync(int jugadorId)
+        {
+            string sql = @"
+                SELECT
+                    c.id AS Id,
+                    c.codigo_unico AS CodigoUnico,
+                    c.patron_contenido AS PatronContenido,
+                    c.estado AS Estado,
+                    s.nombre AS SorteoNombre,
+                    s.fecha_sorteo AS SorteoFecha
+                FROM cartones c
+                INNER JOIN sorteos s ON s.id = c.id_sorteo
+                WHERE c.jugador_id = @JugadorId
+                ORDER BY s.fecha_sorteo DESC, c.id DESC;";
+
+            using (var conexion = _connectionFactory.CreateConnection())
+            {
+                return await conexion.QueryAsync<CartonMisJugadasDTO>(sql, new { JugadorId = jugadorId });
             }
         }
     }
