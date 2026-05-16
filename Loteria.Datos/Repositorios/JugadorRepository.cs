@@ -38,6 +38,16 @@ namespace Loteria.Datos.Repositorios
             }
         }
 
+        public async Task<Jugador?> ObtenerPorUsuarioIdAsync(int usuarioId)
+        {
+            string sql = "SELECT * FROM Jugadores WHERE UsuarioId = @UsuarioId;";
+
+            using (var conexion = _connectionFactory.CreateConnection())
+            {
+                return await conexion.QueryFirstOrDefaultAsync<Jugador>(sql, new { UsuarioId = usuarioId });
+            }
+        }
+
         // obtener todos los jugadores
         public async Task<IEnumerable<Jugador>> ObtenerTodosAsync()
         {

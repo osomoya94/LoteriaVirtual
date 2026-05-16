@@ -198,6 +198,18 @@ namespace Loteria.Negocio.Servicios
             var tokenConfig = tokenHandler.CreateToken(tokenDescriptor);
             string tokenFinal = tokenHandler.WriteToken(tokenConfig);
 
+            Jugador? jugador = null;
+
+            if (usuarioExiste.RolId == 2)
+            {
+                jugador = await _jugadorRepository.ObtenerPorUsuarioIdAsync(usuarioExiste.Id);
+
+                if (jugador == null)
+                {
+                    throw new Exception("El usuario no tiene un jugador asociado.");
+                }
+            }
+
             return new UsuarioResponseLoginDTO
             {
                 Id = usuarioExiste.Id,
@@ -205,6 +217,7 @@ namespace Loteria.Negocio.Servicios
                 Username = usuarioExiste.Username,
                 Activo = usuarioExiste.Activo,
                 Token = tokenFinal,
+                JugadorId = jugador?.Id
             };
         }
 

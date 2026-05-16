@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sorteos Disponibles | Loter&iacute;a Virtual</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .carton-wrapper {
+            border: 1px solid rgba(13, 110, 253, .18);
+            border-radius: .75rem;
+            background: #f8fbff;
+            box-shadow: 0 .75rem 2rem rgba(15, 23, 42, .08);
+        }
+
+        .carton-switch {
+            border-bottom: 1px solid rgba(13, 110, 253, .16);
+            background: rgba(13, 110, 253, .1);
+            border-radius: .75rem .75rem 0 0;
+        }
+
+        .carton-switch .form-check-input {
+            width: 3rem;
+            height: 1.5rem;
+            cursor: pointer;
+        }
+
+        .carton-switch .form-check-label {
+            cursor: pointer;
+        }
+
+        .carton-grid {
+            display: grid;
+            grid-template-columns: repeat(9, minmax(54px, 1fr));
+            border: 3px solid #0d6efd;
+            background: #0d6efd;
+            gap: 2px;
+            min-width: 620px;
+        }
+
+        .carton-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 72px;
+            background: #ffffff;
+            color: #212529;
+            font-size: 1.85rem;
+            font-weight: 800;
+            line-height: 1;
+            text-align: center;
+            user-select: none;
+        }
+
+        .carton-cell.is-empty {
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.18) 25%, transparent 25%) -8px 0 / 16px 16px,
+                linear-gradient(225deg, rgba(255, 255, 255, 0.18) 25%, transparent 25%) -8px 0 / 16px 16px,
+                #cfe2ff;
+        }
+
+        @media (max-width: 767.98px) {
+            .carton-cell {
+                min-height: 62px;
+                font-size: 1.55rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Loter&iacute;a Virtual</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal" aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Alternar navegaci&oacute;n">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarPrincipal">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="sorteos.html">Sorteos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Mis Jugadas</a>
+                    </li>
+                </ul>
+                <button type="button" id="btn-logout" class="btn btn-outline-light">Cerrar sesi&oacute;n</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4 py-lg-5">
+        <section class="dashboard-hero mb-4 mb-lg-5">
+            <p class="text-uppercase fw-semibold mb-2 opacity-75">Sorteos disponibles</p>
+            <h1 class="display-6 fw-bold mb-2">Sorteos Activos</h1>
+            <p class="lead mb-0">Eleg&iacute; un sorteo disponible y compr&aacute; tus cartones para participar.</p>
+        </section>
+
+        <div class="row g-4" id="contenedor-sorteos">
+            <!--
+            aqui van los div de los sorteos
+            -->
+        </div>
+    </main>
+
+    <div class="modal fade" id="modal-compra" tabindex="-1" aria-labelledby="modal-compra-title" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title h5" id="modal-compra-title">Selecciona tus cartones</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="grilla-cartones">
+                    <!--
+                        aqui van los div de los cartones
+                    -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btn-confirmar-compra">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/sorteos.js"></script>
+</body>
+</html>

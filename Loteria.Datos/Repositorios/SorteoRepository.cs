@@ -87,5 +87,65 @@ namespace Loteria.Datos.Repositorios
             }
         }
 
+        public async Task GuardarResultadoSorteoAsync(int idSorteo, string estado, List<int> listaNumeros, int idCartonGanador, int idJugadorGanador)
+        {
+            using (var conexion = _connectionFactory.CreateConnection())
+            {
+                conexion.Open(); // ¡Obligatorio abrir la conexión antes de iniciar la transacción!
+                using (var transaccion = conexion.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Actualizamos el estado del sorteo
+                        string sqlSorteo = "UPDATE sorteos SET estado = @Estado WHERE id = @Id;";
+                        // Notá que ahora le pasamos "transaccion" como tercer parámetro
+                        await conexion.ExecuteAsync(sqlSorteo, new { Id = idSorteo, Estado = estado }, transaccion);
+
+                        // 2. Guardamos las bolillas
+                        var listaExtracciones = listaNumeros.Select((numero, indice) => new
+                        {
+                            id_sorteo = idSorteo,
+                            numero_extraido = numero,
+                            orden = indice + 1
+                        }).ToList();
+
+                        string sqlExtracciones = "INSERT INTO extracciones (id_sorteo, numero_extraido, orden) VALUES (@id_sorteo, @numero_extraido, @orden);";
+                        await conexion.ExecuteAsync(sqlExtracciones, listaExtracciones, transaccion);
+
+                        // 3. Guardamos el ganador (Le sacamos el COALESCE inventado para que busque el real)
+                        string sqlGanador = @"
+                INSERT INTO ganadores (id_sorteo, id_jugador, id_carton, id_asignacion, id_premio, criterio_ganador, confirmado) 
+                VALUES (
+                    @IdSorteo, 
+                    @IdJugador, 
+                    @IdCarton, 
+                    (SELECT id FROM asignaciones_carton WHERE id_carton = @IdCarton LIMIT 1), 
+                    COALESCE((SELECT id FROM premios WHERE id_sorteo = @IdSorteo LIMIT 1), 1), 
+                    'Cartón Lleno', 
+                    1
+                );";
+
+                        await conexion.ExecuteAsync(sqlGanador, new
+                        {
+                            IdSorteo = idSorteo,
+                            IdJugador = idJugadorGanador,
+                            IdCarton = idCartonGanador
+                        }, transaccion);
+
+                        // Si llegó hasta acá sin errores, guardamos todo definitivamente
+                        transaccion.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Si algo explota (ej: no encuentra la asignación), deshacemos los pasos 1 y 2
+                        transaccion.Rollback();
+                        throw new Exception("Error al guardar en la BD. Se canceló la operación para proteger los datos. Detalle: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+
+
     }
 }
