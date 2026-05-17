@@ -35,6 +35,8 @@ builder.Services.AddTransient<JugadorService>();
 builder.Services.AddTransient<SorteoRepository>();
 builder.Services.AddTransient<SorteoService>();
 
+builder.Services.AddTransient<ExtraccionRepository>();
+
 builder.Services.AddTransient<CartonRepository>();
 builder.Services.AddTransient<CartonService>();
 
@@ -1062,6 +1064,49 @@ app.MapPost("/api/sorteos/{id}/jugar", async (int id, SorteoService service) =>
         return Results.BadRequest(respuestaError);
     }
 });//.RequireAuthorization(policy => policy.RequireRole("1"));
+
+app.MapGet("/api/sorteos/{id}/resultados", async (int id, SorteoService service) =>
+{
+    try
+    {
+        var resultados = await service.ObtenerResultadosAsync(id);
+
+        if (resultados == null)
+        {
+            var respuestaError = new ApiResponseDTO
+            {
+                OK = false,
+                Mensaje = $"No se encontro sorteo con el numero {id}",
+                Data = null,
+                Errores = null
+            };
+
+            return Results.NotFound(respuestaError);
+        }
+
+        var respuestaExitosa = new ApiResponseDTO
+        {
+            OK = true,
+            Mensaje = "Retornando resultados del sorteo",
+            Data = resultados,
+            Errores = null
+        };
+
+        return Results.Ok(respuestaExitosa);
+    }
+    catch (Exception ex)
+    {
+        var respuestaError = new ApiResponseDTO
+        {
+            OK = false,
+            Mensaje = "Error",
+            Data = null,
+            Errores = ex.Message
+        };
+
+        return Results.BadRequest(respuestaError);
+    }
+}).RequireAuthorization(policy => policy.RequireRole("1", "2"));
 
 using (var scope = app.Services.CreateScope())
 {

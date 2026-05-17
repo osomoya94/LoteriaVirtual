@@ -1,0 +1,133 @@
+body {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f7f9fc 0%, #edf2f7 100%);
+    color: #172033;
+}
+
+.navbar-brand {
+    letter-spacing: 0;
+}
+
+.sorteo-header {
+    background: linear-gradient(135deg, #0d6efd, #198754);
+    border-radius: 1rem;
+    color: #fff;
+    padding: 2rem;
+    box-shadow: 0 .75rem 2rem rgba(15, 23, 42, .1);
+}
+
+.sorteo-header p,
+.ganador-panel p:first-child {
+    letter-spacing: 0;
+}
+
+.espera-panel,
+.bolillero-panel,
+.ganador-panel {
+    border: 0;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, .94);
+    box-shadow: 0 .75rem 2rem rgba(15, 23, 42, .08);
+    padding: 2rem;
+}
+
+.espera-panel {
+    border: 1px solid rgba(13, 110, 253, .16);
+}
+
+.espera-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    border: .45rem solid rgba(13, 110, 253, .16);
+    border-top-color: #0d6efd;
+    border-radius: 50%;
+}
+
+.bolillero-panel {
+    border: 1px solid rgba(25, 135, 84, .18);
+}
+
+.bolilla-actual-wrapper {
+    width: min(70vw, 20rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    padding: .8rem;
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, .95), rgba(207, 226, 255, .95)),
+        #ffffff;
+    box-shadow:
+        inset 0 0 0 .4rem rgba(13, 110, 253, .12),
+        0 1rem 2.5rem rgba(13, 110, 253, .2);
+}
+
+.bolilla-actual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #0d6efd;
+    font-size: clamp(4.5rem, 18vw, 9rem);
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: inset 0 -.65rem 1.5rem rgba(13, 110, 253, .08);
+}
+
+.historial-wrapper {
+    border-top: 1px solid rgba(13, 110, 253, .14);
+    padding-top: 1.5rem;
+}
+
+.numeros-historial {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+    gap: .75rem;
+}
+
+.numero-historial {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4rem;
+    border-radius: .75rem;
+    background: #e7f1ff;
+    color: #0d6efd;
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.ganador-panel {
+    margin-top: 1.5rem;
+    border: 1px solid rgba(255, 193, 7, .35);
+    background: linear-gradient(135deg, #fff8e1, #ffffff);
+}
+
+.ganador-nombre {
+    color: #198754;
+    font-size: clamp(2rem, 8vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
+}
+
+@media (max-width: 575.98px) {
+    .sorteo-header,
+    .espera-panel,
+    .bolillero-panel,
+    .ganador-panel {
+        border-radius: .75rem;
+        padding: 1.25rem;
+    }
+
+    .numeros-historial {
+        grid-template-columns: repeat(auto-fill, minmax(3.25rem, 1fr));
+        gap: .5rem;
+    }
+
+    .numero-historial {
+        min-height: 3.25rem;
+        border-radius: .6rem;
+        font-size: 1.2rem;
+    }
+}

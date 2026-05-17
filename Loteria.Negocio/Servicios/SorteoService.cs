@@ -17,11 +17,13 @@ namespace Loteria.Negocio.Servicios
 
         private readonly SorteoRepository _sorteoRepository;
         private readonly CartonRepository _cartonRepository;
+        private readonly ExtraccionRepository _extraccionRepository;
 
-        public SorteoService(SorteoRepository sorteoRepository, CartonRepository cartonRepository)
+        public SorteoService(SorteoRepository sorteoRepository, CartonRepository cartonRepository, ExtraccionRepository extraccionRepository)
         {
             _sorteoRepository = sorteoRepository;
             _cartonRepository = cartonRepository;
+            _extraccionRepository = extraccionRepository;
         }
 
         public async Task<IEnumerable<Sorteo>> ObtenerTodosAsync() 
@@ -219,11 +221,9 @@ namespace Loteria.Negocio.Servicios
                 i++;
             }
 
-            var primerGanador = cartonGanador.FirstOrDefault();
-            int idGanador = primerGanador != null ? primerGanador.Id : 0;
-            int idJugador = primerGanador != null ? (primerGanador.JugadorId ?? 0) : 0;
-
-            await _sorteoRepository.GuardarResultadoSorteoAsync(idSorteo, EstadoFinalizado, listaNumeros, idGanador, idJugador);
+            await _extraccionRepository.InsertarMasivoAsync(idSorteo, listaNumeros);
+            await _cartonRepository.MarcarComoGanadoresAsync(cartonGanador.Select(c => c.Id).ToList());
+            await _sorteoRepository.ActualizarEstadoAsync(idSorteo, EstadoFinalizado);
 
             var resultado = new ResultadoSorteoDTO
             {
@@ -232,6 +232,11 @@ namespace Loteria.Negocio.Servicios
             };
 
             return resultado;
+        }
+
+        public async Task<ResultadoSorteoConsultaDTO?> ObtenerResultadosAsync(int idSorteo)
+        {
+            return await _sorteoRepository.ObtenerResultadosAsync(idSorteo);
         }
 
 
