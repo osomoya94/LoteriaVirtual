@@ -104,6 +104,21 @@ namespace Loteria.Datos.Repositorios
             }
         }
 
+        public async Task<int> MarcarComoGanadoresAsync(List<int> idsCartones)
+        {
+            if (idsCartones.Count == 0)
+            {
+                return 0;
+            }
+
+            string sql = "UPDATE cartones SET estado = 'GANADOR' WHERE id IN @Ids;";
+
+            using (var conexion = _connectionFactory.CreateConnection())
+            {
+                return await conexion.ExecuteAsync(sql, new { Ids = idsCartones });
+            }
+        }
+
         public async Task<IEnumerable<Carton>> ObtenerCartonesVendidosPorSorteoAsync(int idSorteo) 
         {
             string sql = "SELECT id, id_sorteo, jugador_id AS JugadorId, codigo_unico, patron_contenido, hash_contenido, estado, fecha_generacion FROM cartones WHERE estado = 'VENDIDO' AND Id_sorteo = @idSorteo";
