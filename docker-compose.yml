@@ -13,6 +13,8 @@ services:
       Jwt__Key: "${JWT_KEY}"
       Jwt__Issuer: "${JWT_ISSUER:-LoteriaVirtualAPI}"
       Jwt__Audience: "${JWT_AUDIENCE:-UsuariosDeLoteria}"
+      BootstrapAdmin__Username: "${BOOTSTRAP_ADMIN_USERNAME:-}"
+      BootstrapAdmin__Password: "${BOOTSTRAP_ADMIN_PASSWORD:-}"
     depends_on:
       mysql:
         condition: service_healthy

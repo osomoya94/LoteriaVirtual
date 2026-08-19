@@ -11,21 +11,20 @@ using Microsoft.OpenApi;
 using MySqlConnector;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Obtenemos el texto de conexión desde el appsettings.json
+// 1. Obtenemos el texto de conexión desde la configuración.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (string.IsNullOrWhiteSpace(connectionString))
 {
-    throw new InvalidOperationException("Falta configurar ConnectionStrings:DefaultConnection en appsettings.json.");
+    throw new InvalidOperationException("Falta configurar ConnectionStrings:DefaultConnection.");
 }
 
-// 2. Registramos nuestra fábrica en el sistema de Inyección de Dependencias
+// 2. Registramos nuestra fábrica en el sistema de Inyección de Dependencias.
 builder.Services.AddSingleton(new ConnectionFactory(connectionString));
 
-//Iyectamos los repositorios al sistema
+// Inyectamos los repositorios al sistema.
 builder.Services.AddTransient<UsuarioRepository>();
 builder.Services.AddTransient<UsuarioService>();
 
@@ -44,12 +43,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityRequirement(document => new OpenApiSecurityRequirement
-{
     {
-        new OpenApiSecuritySchemeReference("Bearer", document, null),
-        new List<string>()
-    }
-});
+        {
+            new OpenApiSecuritySchemeReference("Bearer", document, null),
+            new List<string>()
+        }
+    });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -62,8 +61,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-//CONFIGURACIÓN DE SEGURIDAD JWT
+// CONFIGURACIÓN DE SEGURIDAD JWT
 var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrWhiteSpace(jwtKey) || Encoding.UTF8.GetByteCount(jwtKey) < 32)
+{
+    throw new InvalidOperationException(
+        "Falta configurar Jwt:Key o la clave es demasiado corta. Debe tener al menos 32 bytes.");
+}
+
+var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+var jwtAudience = builder.Configuration["Jwt:Audience"];
+
+if (string.IsNullOrWhiteSpace(jwtIssuer) || string.IsNullOrWhiteSpace(jwtAudience))
+{
+    throw new InvalidOperationException("Falta configurar Jwt:Issuer y/o Jwt:Audience.");
+}
+
 var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -75,19 +88,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
             IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
         };
     });
 
-// Encendemos el sistema de autorizaciones (para poder usar roles)
+// Encendemos el sistema de autorizaciones (para poder usar roles).
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
-app.UseSwagger();
 
-// Configuraciones del entorno HTTP
+// Configuraciones del entorno HTTP.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -95,22 +107,20 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.UseAuthentication(); // 1. Primero verifica que el pasaporte sea original y no esté vencido
-app.UseAuthorization();  // 2. Después verifica qué Rol tiene anotado adentro
-
-// Endpoint de prueba para saber que la API responde
+// Endpoint de prueba para saber que la API responde.
 app.MapGet("/", () => "¡La API de la Loteria Virtual esta funcionando perfecto!");
 
-//PROBADO
+// USUARIOS
 app.MapGet("/api/usuarios", async (UsuarioService servicio) =>
 {
-    try 
+    try
     {
         var usuarios = await servicio.ObtenerTodosAsync();
-        
+
         var respuestaExitosa = new ApiResponseDTO
         {
             OK = true,
@@ -121,7 +131,7 @@ app.MapGet("/api/usuarios", async (UsuarioService servicio) =>
 
         return Results.Ok(respuestaExitosa);
     }
-    catch (Exception ex) 
+    catch (Exception ex)
     {
         var respuestaError = new ApiResponseDTO
         {
@@ -135,8 +145,6 @@ app.MapGet("/api/usuarios", async (UsuarioService servicio) =>
     }
 }).RequireAuthorization(policy => policy.RequireRole("1"));
 
-//PROBADO
-// NUEVO: Endpoint para buscar un usuario específico
 app.MapGet("/api/usuarios/{id}", async (int id, UsuarioService servicio) =>
 {
     try
@@ -151,8 +159,8 @@ app.MapGet("/api/usuarios/{id}", async (int id, UsuarioService servicio) =>
         };
 
         return Results.Ok(respuestaExitosa);
-    } 
-    catch (Exception ex) 
+    }
+    catch (Exception ex)
     {
         var respuestaError = new ApiResponseDTO
         {
@@ -164,11 +172,9 @@ app.MapGet("/api/usuarios/{id}", async (int id, UsuarioService servicio) =>
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1")); 
+}).RequireAuthorization(policy => policy.RequireRole("1"));
 
-//PROBADO
-//Crear usuario, esto es para los admin, no le pongo para token para q tenga acceso a registrarse
-app.MapPost("/api/usuarios", async (UsuarioService servicio, Usuario nuevoUsuario) => 
+app.MapPost("/api/usuarios", async (UsuarioService servicio, Usuario nuevoUsuario) =>
 {
     try
     {
@@ -183,8 +189,6 @@ app.MapPost("/api/usuarios", async (UsuarioService servicio, Usuario nuevoUsuari
         };
 
         return Results.Ok(respuestaExitosa);
-
-
     }
     catch (Exception ex)
     {
@@ -198,14 +202,11 @@ app.MapPost("/api/usuarios", async (UsuarioService servicio, Usuario nuevoUsuari
 
         return Results.BadRequest(respuestaError);
     }
-    
-}).RequireAuthorization(policy => policy.RequireRole("1")); // creamos un adminstrador para que ese cree demas administradores
+}).RequireAuthorization(policy => policy.RequireRole("1"));
 
-//PROBAR
-//Actualizar Usuario, es para el admin
-app.MapPut("/api/usuarios/{id}", async (int id , UsuarioService servicio, Usuario usuarioEditado) => 
+app.MapPut("/api/usuarios/{id}", async (int id, UsuarioService servicio, Usuario usuarioEditado) =>
 {
-    if (usuarioEditado.Id != id ) 
+    if (usuarioEditado.Id != id)
     {
         var respuestaError = new ApiResponseDTO
         {
@@ -259,10 +260,8 @@ app.MapPut("/api/usuarios/{id}", async (int id , UsuarioService servicio, Usuari
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1")); 
+}).RequireAuthorization(policy => policy.RequireRole("1"));
 
-//PROBAR
-//Eliminar Usuario
 app.MapDelete("/api/usuarios/{id}", async (int id, UsuarioService servicio) =>
 {
     var usuario = await servicio.ObtenerPorIdAsync(id);
@@ -281,6 +280,7 @@ app.MapDelete("/api/usuarios/{id}", async (int id, UsuarioService servicio) =>
 
             return Results.NotFound(respuestaError);
         }
+
         await servicio.EliminarUsuarioAsync(id);
 
         var respuestaExitosa = new ApiResponseDTO
@@ -305,10 +305,8 @@ app.MapDelete("/api/usuarios/{id}", async (int id, UsuarioService servicio) =>
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1")); 
+}).RequireAuthorization(policy => policy.RequireRole("1"));
 
-//PROBADO
-// Iniciar sesion
 app.MapPost("/api/usuarios/login", async (UsuarioService service, LoginRequestDTO request) =>
 {
     try
@@ -331,19 +329,18 @@ app.MapPost("/api/usuarios/login", async (UsuarioService service, LoginRequestDT
         {
             OK = false,
             Mensaje = "Hubo un problema al iniciar sesión.",
-            Data = null,       
-            Errores = ex.Message 
+            Data = null,
+            Errores = ex.Message
         };
 
         return Results.BadRequest(respuestaError);
     }
 });
 
-//Probado
-//Crear jugador
-app.MapPost("/api/auth/registro", async (RegistroJugadorDTO nuevoJugador, UsuarioService service) => 
+// JUGADORES
+app.MapPost("/api/auth/registro", async (RegistroJugadorDTO nuevoJugador, UsuarioService service) =>
 {
-    try 
+    try
     {
         await service.RegistrarJugadorWebAsync(nuevoJugador);
         var respuestaExitosa = new ApiResponseDTO
@@ -354,8 +351,8 @@ app.MapPost("/api/auth/registro", async (RegistroJugadorDTO nuevoJugador, Usuari
             Errores = null
         };
         return Results.Ok(respuestaExitosa);
-    } 
-    catch (Exception ex) 
+    }
+    catch (Exception ex)
     {
         var respuestaError = new ApiResponseDTO
         {
@@ -369,8 +366,6 @@ app.MapPost("/api/auth/registro", async (RegistroJugadorDTO nuevoJugador, Usuari
     }
 });
 
-//PROBADO
-//  Endpoint para buscar todos los jugadores
 app.MapGet("/api/jugadores", async (JugadorService servicio) =>
 {
     try
@@ -400,8 +395,6 @@ app.MapGet("/api/jugadores", async (JugadorService servicio) =>
     }
 }).RequireAuthorization(policy => policy.RequireRole("1"));
 
-//PROBANDO
-//  Endpoint para buscar un jugador específico
 app.MapGet("/api/jugadores/{id}", async (int id, JugadorService servicio) =>
 {
     try
@@ -442,10 +435,8 @@ app.MapGet("/api/jugadores/{id}", async (int id, JugadorService servicio) =>
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1", "2")); // le puse los dos roles para que el admin busque uno espesifico y que el mismo se quiera ver
+}).RequireAuthorization(policy => policy.RequireRole("1", "2"));
 
-// PROBAMOS, tenemos que verificar que no se dupliquen los usurname cuando se crean pero lo demas bien,
-// Actlizar jugador
 app.MapPut("/api/jugadores/{id}", async (int id, JugadorService servicio, Jugador jugadorEditado) =>
 {
     if (jugadorEditado.Id != id)
@@ -502,10 +493,8 @@ app.MapPut("/api/jugadores/{id}", async (int id, JugadorService servicio, Jugado
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1", "2"));// el jugador se quiera actulizar o el admin necesite hacer cambios
+}).RequireAuthorization(policy => policy.RequireRole("1", "2"));
 
-//PROBADO
-//Elimina jugador
 app.MapDelete("/api/jugadores/{id}", async (int id, JugadorService servicio) =>
 {
     try
@@ -550,8 +539,7 @@ app.MapDelete("/api/jugadores/{id}", async (int id, JugadorService servicio) =>
     }
 }).RequireAuthorization(policy => policy.RequireRole("1", "2"));
 
-//SORTEOS
-//PROBADO
+// SORTEOS
 app.MapGet("/api/sorteos", async (SorteoService service) =>
 {
     try
@@ -580,9 +568,8 @@ app.MapGet("/api/sorteos", async (SorteoService service) =>
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1","2"));
+}).RequireAuthorization(policy => policy.RequireRole("1", "2"));
 
-//PROBADO
 app.MapPost("/api/sorteos", async (SorteoService service, Sorteo nuevoSorteo) =>
 {
     try
@@ -613,14 +600,13 @@ app.MapPost("/api/sorteos", async (SorteoService service, Sorteo nuevoSorteo) =>
     }
 }).RequireAuthorization(policy => policy.RequireRole("1"));
 
-//PROBADO
-app.MapGet("/api/sorteos/{id}", async (int id , SorteoService service) => 
+app.MapGet("/api/sorteos/{id}", async (int id, SorteoService service) =>
 {
     try
     {
         var sorteo = await service.ObtenerPorIdAsync(id);
 
-        if(sorteo == null) 
+        if (sorteo == null)
         {
             var respuestaError = new ApiResponseDTO
             {
@@ -657,7 +643,6 @@ app.MapGet("/api/sorteos/{id}", async (int id , SorteoService service) =>
     }
 }).RequireAuthorization(policy => policy.RequireRole("1", "2"));
 
-//PROBADO
 app.MapPut("/api/sorteos/{id}", async (int id, SorteoService service, Sorteo sorteoModificado) =>
 {
     if (sorteoModificado.Id != id)
@@ -701,7 +686,8 @@ app.MapPut("/api/sorteos/{id}", async (int id, SorteoService service, Sorteo sor
         };
 
         return Results.Ok(respuestaExitosa);
-    } catch (Exception ex)
+    }
+    catch (Exception ex)
     {
         var respuestaError = new ApiResponseDTO
         {
@@ -713,9 +699,8 @@ app.MapPut("/api/sorteos/{id}", async (int id, SorteoService service, Sorteo sor
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1")); ;
+}).RequireAuthorization(policy => policy.RequireRole("1"));
 
-// PROBADO
 app.MapDelete("/api/sorteos/{id}/cancelar", async (int id, SorteoService sorteoService) =>
 {
     var sorteo = await sorteoService.ObtenerPorIdAsync(id);
@@ -761,9 +746,7 @@ app.MapDelete("/api/sorteos/{id}/cancelar", async (int id, SorteoService sorteoS
     }
 }).RequireAuthorization(policy => policy.RequireRole("1"));
 
-
 // CARTONES
-//PROBADO
 app.MapGet("/api/sorteos/{idSorteo}/cartones", async (int idSorteo, CartonService service) =>
 {
     try
@@ -792,7 +775,7 @@ app.MapGet("/api/sorteos/{idSorteo}/cartones", async (int idSorteo, CartonServic
 
         return Results.BadRequest(respuestaError);
     }
-}).RequireAuthorization(policy => policy.RequireRole("1","2"));
+}).RequireAuthorization(policy => policy.RequireRole("1", "2"));
 
 app.MapGet("/api/jugadores/{idJugador}/mis-jugadas", async (int idJugador, CartonService service) =>
 {
@@ -874,9 +857,7 @@ app.MapPut("/api/jugadores/{idJugador}/mis-jugadas/{idCarton}/cancelar", async (
     }
 }).RequireAuthorization(policy => policy.RequireRole("2"));
 
-//CREAR CARTONES A MANO
-// PROBADO
-app.MapPost("/api/cartones", async (CartonService service,Carton nuevoCarton ) => 
+app.MapPost("/api/cartones", async (CartonService service, Carton nuevoCarton) =>
 {
     try
     {
@@ -905,10 +886,10 @@ app.MapPost("/api/cartones", async (CartonService service,Carton nuevoCarton ) =
         return Results.BadRequest(respuestaError);
     }
 }).RequireAuthorization(policy => policy.RequireRole("1"));
-//PROBADO
-app.MapPost("/api/cartones/comprar", async (CartonService service, CompraCartonesDTO pedido) => 
+
+app.MapPost("/api/cartones/comprar", async (CartonService service, CompraCartonesDTO pedido) =>
 {
-    try 
+    try
     {
         await service.ComprarCartonesAsync(pedido);
 
@@ -921,8 +902,8 @@ app.MapPost("/api/cartones/comprar", async (CartonService service, CompraCartone
         };
 
         return Results.Ok(respuestaExitosa);
-
-    } catch (Exception ex) 
+    }
+    catch (Exception ex)
     {
         var respuestaError = new ApiResponseDTO
         {
@@ -935,9 +916,8 @@ app.MapPost("/api/cartones/comprar", async (CartonService service, CompraCartone
         return Results.BadRequest(respuestaError);
     }
 }).RequireAuthorization(policy => policy.RequireRole("2"));
-//PROBADO
-//Aceptar Cartones
-app.MapPut("/api/cartones/aprobar", async (CartonService service, CompraCartonesDTO pedido) => 
+
+app.MapPut("/api/cartones/aprobar", async (CartonService service, CompraCartonesDTO pedido) =>
 {
     try
     {
@@ -952,7 +932,6 @@ app.MapPut("/api/cartones/aprobar", async (CartonService service, CompraCartones
         };
 
         return Results.Ok(respuestaExitosa);
-
     }
     catch (Exception ex)
     {
@@ -967,8 +946,7 @@ app.MapPut("/api/cartones/aprobar", async (CartonService service, CompraCartones
         return Results.BadRequest(respuestaError);
     }
 }).RequireAuthorization(policy => policy.RequireRole("1"));
-//PROBADO
-//Cancelar Cartones
+
 app.MapPut("/api/cartones/cancelar", async (CartonService service, CompraCartonesDTO pedido) =>
 {
     try
@@ -984,7 +962,6 @@ app.MapPut("/api/cartones/cancelar", async (CartonService service, CompraCartone
         };
 
         return Results.Ok(respuestaExitosa);
-
     }
     catch (Exception ex)
     {
@@ -1000,8 +977,6 @@ app.MapPut("/api/cartones/cancelar", async (CartonService service, CompraCartone
     }
 }).RequireAuthorization(policy => policy.RequireRole("1"));
 
-//PROBADO
-//Genera todos los cartones deceado hasta 850
 app.MapPost("/api/sorteos/{id}/abrir", async (int id, AbrirSorteoDTO datos, SorteoService service) =>
 {
     try
@@ -1017,7 +992,6 @@ app.MapPost("/api/sorteos/{id}/abrir", async (int id, AbrirSorteoDTO datos, Sort
         };
 
         return Results.Ok(respuestaExitosa);
-
     }
     catch (Exception ex)
     {
@@ -1033,7 +1007,7 @@ app.MapPost("/api/sorteos/{id}/abrir", async (int id, AbrirSorteoDTO datos, Sort
     }
 }).RequireAuthorization(policy => policy.RequireRole("1"));
 
-//Emepzar sorteos
+// Solo un administrador puede ejecutar el sorteo.
 app.MapPost("/api/sorteos/{id}/jugar", async (int id, SorteoService service) =>
 {
     try
@@ -1049,7 +1023,6 @@ app.MapPost("/api/sorteos/{id}/jugar", async (int id, SorteoService service) =>
         };
 
         return Results.Ok(respuestaExitosa);
-
     }
     catch (Exception ex)
     {
@@ -1063,7 +1036,7 @@ app.MapPost("/api/sorteos/{id}/jugar", async (int id, SorteoService service) =>
 
         return Results.BadRequest(respuestaError);
     }
-});//.RequireAuthorization(policy => policy.RequireRole("1"));
+}).RequireAuthorization(policy => policy.RequireRole("1"));
 
 app.MapGet("/api/sorteos/{id}/resultados", async (int id, SorteoService service) =>
 {
@@ -1108,28 +1081,48 @@ app.MapGet("/api/sorteos/{id}/resultados", async (int id, SorteoService service)
     }
 }).RequireAuthorization(policy => policy.RequireRole("1", "2"));
 
+// Bootstrap de datos mínimos del sistema.
 using (var scope = app.Services.CreateScope())
 {
     var connectionFactory = scope.ServiceProvider.GetRequiredService<ConnectionFactory>();
 
-    // Insertamos los roles
-    string sqlRoles = "INSERT IGNORE INTO Roles (Id, Nombre) VALUES (1, 'Admin'), (2, 'Jugador');";
+    const string sqlRoles = "INSERT IGNORE INTO Roles (Id, Nombre) VALUES (1, 'Admin'), (2, 'Jugador');";
 
-    //Preparamos los datos del primer Admin encriptando su clave
-    string adminClave = "Admin1234!"; // Esta será tu contraseña real para entrar
-    string adminHash = BCrypt.Net.BCrypt.HashPassword(adminClave);
+    using var conexion = connectionFactory.CreateConnection();
+    await conexion.ExecuteAsync(sqlRoles);
 
-    string sqlAdmin = @"
-    INSERT IGNORE INTO Usuarios (RolId, Username, PasswordHash, Activo) 
-    VALUES (1, 'admin_super', @Hash, 1);";
+    var adminUsername = builder.Configuration["BootstrapAdmin:Username"];
+    var adminPassword = builder.Configuration["BootstrapAdmin:Password"];
 
-    using (var conexion = connectionFactory.CreateConnection())
+    var tieneUsername = !string.IsNullOrWhiteSpace(adminUsername);
+    var tienePassword = !string.IsNullOrWhiteSpace(adminPassword);
+
+    if (tieneUsername != tienePassword)
     {
-        await conexion.ExecuteAsync(sqlRoles);
-        await conexion.ExecuteAsync(sqlAdmin, new { Hash = adminHash });
+        throw new InvalidOperationException(
+            "Para crear el administrador inicial deben configurarse BootstrapAdmin:Username y BootstrapAdmin:Password juntos.");
+    }
+
+    if (tieneUsername && tienePassword)
+    {
+        if (adminPassword!.Length < 12)
+        {
+            throw new InvalidOperationException(
+                "BootstrapAdmin:Password debe tener al menos 12 caracteres.");
+        }
+
+        var adminHash = BCrypt.Net.BCrypt.HashPassword(adminPassword);
+
+        const string sqlAdmin = @"
+            INSERT IGNORE INTO Usuarios (RolId, Username, PasswordHash, Activo)
+            VALUES (1, @Username, @Hash, 1);";
+
+        await conexion.ExecuteAsync(sqlAdmin, new
+        {
+            Username = adminUsername,
+            Hash = adminHash
+        });
     }
 }
 
-
 app.Run();
-
