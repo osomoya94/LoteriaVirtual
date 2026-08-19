@@ -9,7 +9,12 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_URLS: "http://+:8080"
-      ConnectionStrings__DefaultConnection: "Server=mysql;Port=3306;Database=loteriavirtual;User=root;Password=1234;"
+      ConnectionStrings__DefaultConnection: "Server=mysql;Port=3306;Database=${MYSQL_DATABASE};User=root;Password=${MYSQL_ROOT_PASSWORD};"
+      Jwt__Key: "${JWT_KEY}"
+      Jwt__Issuer: "${JWT_ISSUER:-LoteriaVirtualAPI}"
+      Jwt__Audience: "${JWT_AUDIENCE:-UsuariosDeLoteria}"
+      BootstrapAdmin__Username: "${BOOTSTRAP_ADMIN_USERNAME:-}"
+      BootstrapAdmin__Password: "${BOOTSTRAP_ADMIN_PASSWORD:-}"
     depends_on:
       mysql:
         condition: service_healthy
@@ -19,8 +24,8 @@ services:
     container_name: loteria-mysql
     command: --lower_case_table_names=1
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: loteriavirtual
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-loteriavirtual}"
     ports:
       - "3307:3306"
     volumes:
